@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Forja de Tomos — Editor de Livros de RPG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Russo+One&family=Nunito:ital,wght@0,400;0,700;0,800;1,400&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+Sans+SC:wght@500;700&family=Caveat:wght@400;700&family=Zilla+Slab:ital,wght@0,500;0,600;0,700;1,500&family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Cormorant+SC:wght@500;600;700&family=Cormorant+Unicase:wght@500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Grenze+Gotisch:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Spectral+SC:wght@400;600&family=UnifrakturCook:wght@700&family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/book.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <style id="print-size"></style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><path d="M5 5h9a4 4 0 0 1 4 4v18a3 3 0 0 0-3-3H5z" fill="#c9a45c"/><path d="M27 5h-9a4 4 0 0 0-4 4v18a3 3 0 0 1 3-3h10z" fill="#e7d3a1"/><path d="M16 9v16" stroke="#1e1f24" stroke-width="1.2"/></svg>
+    <span>Forja de Tomos</span>
+  </div>
+  <input id="bookTitle" class="title-input" placeholder="Título do livro (aparece no rodapé das páginas pares)" title="Título do livro">
+  <div class="tb-group">
+    <button id="themeBtn" class="btn" title="Escolher tema">🎨 <b id="themeName">Tema</b> ▾</button>
+    <select id="pageSize" class="btn" title="Tamanho da página">
+      <option value="letter">Carta (8,5 × 11")</option>
+      <option value="a4">A4 (210 × 297 mm)</option>
+    </select>
+  </div>
+  <div class="tb-group zoom">
+    <button id="zoomOut" class="btn icon" title="Diminuir zoom">−</button>
+    <span id="zoomVal">75%</span>
+    <button id="zoomIn" class="btn icon" title="Aumentar zoom">+</button>
+    <button id="zoomFit" class="btn" title="Ajustar à largura">Ajustar</button>
+    <button id="spreadBtn" class="btn" title="Ver páginas lado a lado (como livro aberto)">📖 Lado a lado</button>
+  </div>
+  <div class="tb-group right">
+    <button id="imagesBtn" class="btn">🖼 Imagens</button>
+    <button id="helpBtn" class="btn">❔ Guia</button>
+    <div class="menu">
+      <button class="btn">Arquivo ▾</button>
+      <div class="menu-pop" id="fileMenu">
+        <button data-file="new">📄 Novo livro em branco</button>
+        <button data-file="sample">📚 Carregar livro de exemplo</button>
+        <button data-file="sampleKi">🔥 Exemplo de artes marciais (tema Aura de Ki)</button>
+        <hr>
+        <button data-file="import">📂 Abrir (.md, .txt ou projeto .json)…</button>
+        <button data-file="json">💾 Salvar projeto (.json com imagens)</button>
+        <button data-file="md">⬇ Exportar texto (.md)</button>
+        <button data-file="html">🌐 Exportar página HTML</button>
+      </div>
+    </div>
+    <button id="printBtn" class="btn primary" title="Exportar para PDF / imprimir">⤓ Exportar PDF</button>
+  </div>
+</header>
+
+<div id="themePanel" class="theme-panel" hidden>
+  <div class="theme-panel-head">Escolha o visual do seu livro</div>
+  <div id="themeGrid" class="theme-grid"></div>
+</div>
+
+<main class="workspace">
+  <section class="editor-pane">
+    <div class="toolbar" id="toolbar">
+      <div class="tgroup">
+        <button data-act="h1" title="Capítulo (abre página nova, título largo)">Capítulo</button>
+        <button data-act="h2" title="Título de seção (##)">H2</button>
+        <button data-act="h3" title="Subtítulo (###)">H3</button>
+        <button data-act="h4" title="Título menor (####)">H4</button>
+      </div>
+      <div class="tgroup">
+        <button data-act="bold" title="Negrito (Ctrl+B)"><b>N</b></button>
+        <button data-act="italic" title="Itálico (Ctrl+I)"><i>I</i></button>
+        <button data-act="mark" title="Marca-texto (Ctrl+E)"><span class="mk">M</span></button>
+        <button data-act="sc" title="Versalete">Vᴇʀs</button>
+        <button data-act="link" title="Link">🔗</button>
+      </div>
+      <div class="tgroup">
+        <button data-act="ul" title="Lista com marcadores">• Lista</button>
+        <button data-act="ol" title="Lista numerada">1. Lista</button>
+        <button data-act="table" title="Tabela">▦ Tabela</button>
+      </div>
+      <div class="tgroup">
+        <button data-act="nota" title="Nota / regra em destaque">Nota</button>
+        <button data-act="quadro" title="Quadro lateral">Quadro</button>
+        <button data-act="quadroBaixo" title="Quadro preso no pé da coluna (como no livro do jogador)">Quadro ⤓</button>
+        <button data-act="leitura" title="Texto para ler em voz alta">Leitura</button>
+        <button data-act="destaque" title="Caixa de destaque forte">Destaque</button>
+        <button data-act="citacao" title="Citação / epígrafe">“Citação”</button>
+      </div>
+      <div class="tgroup">
+        <button data-act="criatura" title="Ficha de criatura (stat block)">🐉 Criatura</button>
+        <button data-act="magia" title="Bloco de magia">✨ Magia</button>
+        <button data-act="item" title="Item mágico">⚔ Item</button>
+      </div>
+      <div class="tgroup">
+        <button data-act="image" title="Inserir imagem (link, arquivo ou biblioteca)" class="accent">🖼 Imagem</button>
+        <button data-act="hr" title="Divisor ornamental">❦ Divisor</button>
+        <button data-act="colbreak" title="Pular para a próxima coluna">⇥ Coluna</button>
+        <button data-act="pagebreak" title="Pular para a próxima página (Ctrl+Enter)">⤓ Página</button>
+      </div>
+      <div class="tgroup">
+        <button data-act="toc" title="Sumário automático com números de página">☰ Sumário</button>
+        <button data-act="cover" title="Página de capa">Capa</button>
+        <button data-act="solo" title="Página avulsa centralizada (créditos, dedicatória)">Página avulsa</button>
+      </div>
+    </div>
+    <textarea id="editor" spellcheck="false" autocomplete="off" placeholder="Escreva seu livro aqui…"></textarea>
+    <div class="statusbar">
+      <span id="stPages">—</span><span id="stWords"></span><span id="stTime"></span><span id="stSave" class="push"></span>
+    </div>
+  </section>
+  <div class="splitter" id="splitter" title="Arraste para redimensionar"></div>
+  <section class="preview-pane" id="previewPane">
+    <div id="pages" class="book-pages"></div>
+  </section>
+</main>
+
+<div id="stage" class="book-pages stage" aria-hidden="true"></div>
+<div id="toast" class="toast"></div>
+<input type="file" id="importFile" accept=".md,.markdown,.txt,.json" hidden>
+
+<!-- ===================== Diálogo de imagem ===================== -->
+<dialog id="imgDialog" class="dlg">
+  <div class="dlg-head"><h2>Inserir imagem</h2></div>
+  <div class="tabs">
+    <button type="button" data-tab="url" class="active">🔗 Por link</button>
+    <button type="button" data-tab="file">💻 Do computador</button>
+    <button type="button" data-tab="lib">🗂 Biblioteca</button>
+  </div>
+  <div class="tab" data-tab="url">
+    <label class="field">Endereço da imagem (URL)
+      <input id="imgUrl" type="url" placeholder="https://exemplo.com/minha-imagem.png">
+    </label>
+    <p class="hint">Na internet: clique com o botão direito numa imagem → <b>“Copiar endereço da imagem”</b> e cole aqui.
+      Atalho: você também pode simplesmente <b>colar o link</b> ou <b>arrastar a imagem</b> direto para o editor de texto.</p>
+  </div>
+  <div class="tab" data-tab="file" hidden>
+    <label class="dropzone" id="dropzone">
+      <input type="file" id="imgFile" accept="image/*" hidden>
+      <span class="dz-icon">⬆</span>
+      <span>Arraste uma imagem aqui ou <u>clique para escolher</u></span>
+      <small>PNG, JPG, WEBP, SVG, GIF…</small>
+    </label>
+    <p class="hint">Imagens do computador ficam guardadas na biblioteca do navegador e são incluídas quando você salva o projeto (.json). Dica: <b>Ctrl+V</b> de um print cola direto no editor.</p>
+  </div>
+  <div class="tab" data-tab="lib" hidden>
+    <div id="libGrid" class="lib-grid"></div>
+  </div>
+
+  <div class="img-opts">
+    <div class="img-preview"><img id="imgPreview" alt="" hidden><span id="imgPrevMsg">Pré-visualização</span></div>
+    <div class="opts">
+      <label class="field">Legenda (opcional)<input id="imgCaption" placeholder="Ex.: O dragão Vharnax sobre a montanha"></label>
+      <div class="field-label">Posição na página</div>
+      <div class="pos-grid" id="posGrid">
+        <button type="button" data-pos="coluna"><span class="pos-ico">▥</span>Na coluna</button>
+        <button type="button" data-pos="larga"><span class="pos-ico">▬</span>Largura total</button>
+        <button type="button" data-pos="direita"><span class="pos-ico">◨</span>Flutuar à direita</button>
+        <button type="button" data-pos="esquerda"><span class="pos-ico">◧</span>Flutuar à esquerda</button>
+        <button type="button" data-pos="baixo"><span class="pos-ico">⬓</span>Pé da coluna</button>
+        <button type="button" data-pos="pagina"><span class="pos-ico">▣</span>Página inteira</button>
+      </div>
+      <label class="field" id="widthRow">Largura: <span id="imgWidthVal">100%</span>
+        <input type="range" id="imgWidth" min="20" max="100" step="5" value="100">
+      </label>
+      <label class="check"><input type="checkbox" id="imgNoBorder"> Sem moldura / sombra</label>
+    </div>
+  </div>
+  <div class="dlg-actions">
+    <button type="button" id="imgCancel" class="btn">Cancelar</button>
+    <button type="button" id="imgInsert" class="btn primary">Inserir imagem</button>
+  </div>
+</dialog>
+
+<!-- ===================== Guia ===================== -->
+<dialog id="helpDialog" class="dlg help">
+  <div class="dlg-head"><h2>Guia rápido de formatação</h2><button type="button" id="helpClose" class="btn icon">✕</button></div>
+  <div class="help-body">
+    <p>Você escreve em texto simples (estilo <i>Markdown</i>) e a Forja diagrama tudo automaticamente em <b>duas colunas contínuas</b>:
+      o texto enche a coluna da esquerda, continua na da direita e segue para a próxima página — parágrafos, listas, tabelas e quadros
+      são divididos sozinhos quando não cabem. Clique em qualquer parte da prévia para pular até a linha correspondente no texto.</p>
+    <h3>Estrutura</h3>
+    <table>
+      <tr><td><code># Capítulo 1: Título</code></td><td>Capítulo — abre página nova, título largo, letra capitular no 1º parágrafo e nome no rodapé.</td></tr>
+      <tr><td><code>## Seção</code> · <code>### Sub</code> · <code>#### Menor</code></td><td>Títulos dentro das colunas.</td></tr>
+      <tr><td><code>##### Tabela: Nome</code></td><td>Título de tabela.</td></tr>
+      <tr><td><code>\sumario</code></td><td>Sumário automático com número das páginas (use <code>\sumario 3</code> para incluir ###).</td></tr>
+      <tr><td><code>\pagina</code> · <code>\coluna</code></td><td>Quebra de página · quebra de coluna.</td></tr>
+      <tr><td><code>## Título {sem-sumario}</code></td><td>Não aparece no sumário. <code># Cap {continuar}</code> não pula página.</td></tr>
+    </table>
+    <h3>Texto</h3>
+    <table>
+      <tr><td><code>**negrito**</code> · <code>*itálico*</code> · <code>***ambos***</code></td><td>Ênfase.</td></tr>
+      <tr><td><code>==marca-texto==</code> · <code>^^Versalete^^</code> · <code>~~riscado~~</code></td><td>Destaques no texto.</td></tr>
+      <tr><td><code>- item</code> · <code>1. item</code></td><td>Listas (recue 2 espaços para sublista).</td></tr>
+      <tr><td><code>&gt; citação</code> + <code>&gt; — Autor</code></td><td>Citação / epígrafe.</td></tr>
+      <tr><td><code>---</code></td><td>Divisor ornamental.</td></tr>
+      <tr><td>Parágrafo terminado em <code>{centro}</code></td><td>Também: <code>{direita}</code> <code>{pequeno}</code> <code>{grande}</code> <code>{capitular}</code> <code>{sem-recuo}</code> <code>{destaque}</code>.</td></tr>
+    </table>
+    <h3>Blocos especiais</h3>
+    <table>
+      <tr><td><code>:::nota Título</code> … <code>:::</code></td><td>Nota/regra. Também: <code>quadro</code>, <code>leitura</code>, <code>destaque</code>, <code>citacao</code>, <code>criatura</code>, <code>magia</code>, <code>item</code>.</td></tr>
+      <tr><td><code>:::tecnica</code> · <code>:::lutador</code> · <code>:::fala</code></td><td>Apelidos para artes marciais/anime: técnica (= magia), ficha de lutador (= criatura) e balão de fala (= leitura).</td></tr>
+      <tr><td><code>:::quadro{baixo} Título</code></td><td>Quadro preso ao <b>pé da coluna</b>; o texto continua por cima.</td></tr>
+      <tr><td><code>:::nota{larga} Título</code></td><td>Bloco ocupando as duas colunas.</td></tr>
+      <tr><td><code>:::larga</code> … <code>:::</code></td><td>Qualquer conteúdo (ex.: tabela grande) na largura total.</td></tr>
+      <tr><td><code>@atributos 10 14 12 8 13 15</code></td><td>Tabela FOR/DES/CON/INT/SAB/CAR com modificadores (use dentro de <code>:::criatura</code>).</td></tr>
+      <tr><td><code>:::capa</code> + imagem + <code># Título</code></td><td>Capa de página inteira (<code>{baixo}</code> põe o texto embaixo).</td></tr>
+      <tr><td><code>:::pagina</code> … <code>:::</code></td><td>Página avulsa centralizada (créditos, dedicatória).</td></tr>
+    </table>
+    <h3>Imagens</h3>
+    <table>
+      <tr><td><code>![Legenda](https://link.da/imagem.png)</code></td><td>Imagem na coluna, com legenda.</td></tr>
+      <tr><td><code>{larga}</code> <code>{direita}</code> <code>{esquerda}</code> <code>{baixo}</code> <code>{pagina}</code></td><td>Largura total · flutuando à direita/esquerda · pé da coluna · página inteira.</td></tr>
+      <tr><td><code>{largura=60%}</code> <code>{altura=200px}</code> <code>{sem-borda}</code> <code>{redonda}</code></td><td>Tamanho e moldura (pode combinar: <code>{direita largura=40%}</code>).</td></tr>
+      <tr><td>Colar link · arrastar · Ctrl+V de um print</td><td>Vira imagem automaticamente no editor.</td></tr>
+    </table>
+    <h3>Exportar</h3>
+    <p><b>Exportar PDF</b> abre a impressão do navegador: escolha <b>“Salvar como PDF”</b>, margens <b>Nenhuma</b> e deixe
+      <b>“Gráficos de fundo”</b> marcado. O tamanho da página já vem configurado.</p>
+  </div>
+</dialog>
+
+<script src="js/parser.js"></script>
+<script src="js/paginator.js"></script>
+<script src="js/images.js"></script>
+<script src="js/sample.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

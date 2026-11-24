@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 1100" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <pattern id="grid" width="25" height="25" patternUnits="userSpaceOnUse">
+      <path d="M25 0 H0 V25" fill="none" stroke="#7aa0b8" stroke-width=".7" opacity=".55"/>
+    </pattern>
+    <radialGradient id="paper" cx=".5" cy=".45" r=".75">
+      <stop offset="0" stop-color="#f4e7c6"/><stop offset=".75" stop-color="#e6d1a1"/><stop offset="1" stop-color="#c9a96b"/>
+    </radialGradient>
+    <pattern id="rock" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M0 0 V12" stroke="#5b4630" stroke-width="1.2" opacity=".35"/>
+    </pattern>
+  </defs>
+  <rect width="850" height="1100" fill="url(#paper)"/>
+  <rect x="40" y="40" width="770" height="1020" fill="none" stroke="#5b4630" stroke-width="3"/>
+  <rect x="52" y="52" width="746" height="996" fill="none" stroke="#5b4630" stroke-width="1"/>
+  <!-- rocha ao redor -->
+  <rect x="52" y="52" width="746" height="996" fill="url(#rock)"/>
+  <!-- salas (área escavada) -->
+  <g fill="#f8efd6" stroke="#2f2418" stroke-width="5" stroke-linejoin="round">
+    <path d="M375 90 H475 V190 H450 V260 H400 V190 H375Z"/>
+    <path d="M150 260 H400 V410 H150Z"/>
+    <path d="M450 230 H700 V380 H450Z"/>
+    <path d="M250 410 H310 V520 H250Z"/>
+    <path d="M100 520 H420 V720 H100Z"/>
+    <path d="M560 380 H620 V500 H560Z"/>
+    <path d="M480 500 H760 V700 H480Z"/>
+    <path d="M200 720 H260 V800 H200Z"/>
+    <path d="M610 700 H670 V790 H610Z"/>
+    <path d="M300 790 C 300 760, 560 760, 560 790 V960 C 560 1000, 300 1000, 300 960Z"/>
+    <path d="M130 800 H260 V900 H130Z"/>
+  </g>
+  <!-- grade sobre as salas -->
+  <g fill="url(#grid)">
+    <path d="M375 90 H475 V190 H450 V260 H400 V190 H375Z"/>
+    <path d="M150 260 H400 V410 H150Z"/>
+    <path d="M450 230 H700 V380 H450Z"/>
+    <path d="M250 410 H310 V520 H250Z"/>
+    <path d="M100 520 H420 V720 H100Z"/>
+    <path d="M560 380 H620 V500 H560Z"/>
+    <path d="M480 500 H760 V700 H480Z"/>
+    <path d="M200 720 H260 V800 H200Z"/>
+    <path d="M610 700 H670 V790 H610Z"/>
+    <path d="M300 790 C 300 760, 560 760, 560 790 V960 C 560 1000, 300 1000, 300 960Z"/>
+    <path d="M130 800 H260 V900 H130Z"/>
+  </g>
+  <!-- detalhes: colunas, água, escadas -->
+  <g fill="#2f2418">
+    <circle cx="200" cy="580" r="10"/><circle cx="320" cy="580" r="10"/><circle cx="200" cy="660" r="10"/><circle cx="320" cy="660" r="10"/>
+    <circle cx="380" cy="840" r="9"/><circle cx="480" cy="840" r="9"/><circle cx="380" cy="920" r="9"/><circle cx="480" cy="920" r="9"/>
+  </g>
+  <path d="M520 560 C 560 530, 640 540, 680 580 C 720 620, 690 670, 630 670 C 570 670, 540 640, 530 610Z" fill="#9cc3d1" stroke="#2f2418" stroke-width="2" opacity=".9"/>
+  <g stroke="#2f2418" stroke-width="2">
+    <path d="M385 110 H465 M385 125 H465 M385 140 H465 M385 155 H465 M385 170 H465"/>
+  </g>
+  <!-- portas -->
+  <g fill="#8a5a2b" stroke="#2f2418" stroke-width="2">
+    <rect x="410" y="252" width="30" height="14"/><rect x="443" y="290" width="14" height="30"/><rect x="265" y="403" width="30" height="14"/>
+    <rect x="265" y="513" width="30" height="14"/><rect x="575" y="373" width="30" height="14"/><rect x="575" y="493" width="30" height="14"/>
+    <rect x="215" y="713" width="30" height="14"/><rect x="625" y="693" width="30" height="14"/><rect x="253" y="835" width="14" height="30"/>
+  </g>
+  <!-- corredor secreto tracejado -->
+  <path d="M640 790 C 640 860, 600 880, 560 880" fill="none" stroke="#7a1f12" stroke-width="4" stroke-dasharray="10 8"/>
+  <!-- números das salas -->
+  <g font-family="Georgia, serif" font-size="22" font-weight="bold" text-anchor="middle">
+    <g fill="#7a1f12">
+      <circle cx="425" cy="215" r="16"/><circle cx="275" cy="335" r="16"/><circle cx="575" cy="305" r="16"/><circle cx="260" cy="620" r="16"/>
+      <circle cx="590" cy="440" r="16"/><circle cx="620" cy="610" r="16"/><circle cx="430" cy="880" r="16"/><circle cx="195" cy="850" r="16"/>
+    </g>
+    <g fill="#f8efd6">
+      <text x="425" y="223">1</text><text x="275" y="343">2</text><text x="575" y="313">3</text><text x="260" y="628">4</text>
+      <text x="590" y="448">5</text><text x="620" y="618">6</text><text x="430" y="888">7</text><text x="195" y="858">8</text>
+    </g>
+  </g>
+  <!-- cartucho do título -->
+  <g transform="translate(425 1000)">
+    <path d="M-250 -38 H250 L230 0 L250 38 H-250 L-230 0Z" fill="#7a1f12" stroke="#2f2418" stroke-width="3"/>
+    <text y="-4" text-anchor="middle" font-family="Georgia, serif" font-size="27" font-weight="bold" fill="#f6e3a8" letter-spacing="2">A MINA ESQUECIDA</text>
+    <text y="24" text-anchor="middle" font-family="Georgia, serif" font-size="15" font-style="italic" fill="#f6e3a8">Khaz-Durim · 1 quadrado = 1,5 metro</text>
+  </g>
+  <!-- rosa dos ventos -->
+  <g transform="translate(130 150)">
+    <circle r="54" fill="#f4e7c6" stroke="#2f2418" stroke-width="2"/>
+    <circle r="44" fill="none" stroke="#2f2418" stroke-width=".8"/>
+    <path d="M0 -60 L9 -9 L60 0 L9 9 L0 60 L-9 9 L-60 0 L-9 -9Z" fill="#2f2418"/>
+    <path d="M0 -60 L9 -9 L0 0Z M60 0 L9 9 L0 0Z M0 60 L-9 9 L0 0Z M-60 0 L-9 -9 L0 0Z" fill="#c79a3e"/>
+    <text y="-66" text-anchor="middle" font-family="Georgia, serif" font-size="18" font-weight="bold" fill="#2f2418">N</text>
+  </g>
+  <!-- legenda -->
+  <g font-family="Georgia, serif" font-size="15" fill="#2f2418" transform="translate(600 110)">
+    <rect x="-14" y="-24" width="196" height="138" fill="#f4e7c6" stroke="#2f2418" stroke-width="1.5"/>
+    <text font-weight="bold" font-size="17">Legenda</text>
+    <rect y="14" width="22" height="10" fill="#8a5a2b" stroke="#2f2418"/><text x="32" y="24">Porta</text>
+    <circle cx="11" cy="47" r="7"/><text x="32" y="52">Coluna</text>
+    <path d="M0 76 H24" stroke="#7a1f12" stroke-width="4" stroke-dasharray="6 5"/><text x="32" y="81">Passagem secreta</text>
+    <rect y="96" width="24" height="10" fill="#9cc3d1" stroke="#2f2418"/><text x="32" y="106">Água</text>
+  </g>
+</svg>

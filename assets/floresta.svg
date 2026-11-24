@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9fc3c9"/>
+      <stop offset=".55" stop-color="#f1d9a4"/>
+      <stop offset="1" stop-color="#f6e6c0"/>
+    </linearGradient>
+    <radialGradient id="sun" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#fff8dc"/>
+      <stop offset=".3" stop-color="#ffe7a8" stop-opacity=".8"/>
+      <stop offset="1" stop-color="#ffe7a8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mist" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f6e6c0" stop-opacity="0"/>
+      <stop offset=".6" stop-color="#f6e6c0" stop-opacity=".7"/>
+      <stop offset="1" stop-color="#f6e6c0" stop-opacity="0"/>
+    </linearGradient>
+    <symbol id="t" viewBox="0 0 40 100">
+      <path d="M20 0 L33 36 L26 36 L37 62 L25 62 L38 86 L23 86 L23 100 L17 100 L17 86 L2 86 L15 62 L3 62 L14 36 L7 36Z"/>
+    </symbol>
+  </defs>
+  <rect width="1200" height="480" fill="url(#sky)"/>
+  <circle cx="820" cy="190" r="170" fill="url(#sun)"/>
+  <!-- picos -->
+  <path d="M0 300 L120 200 L200 240 L320 110 L380 150 L460 60 L560 170 L640 130 L760 230 L880 160 L980 220 L1080 140 L1200 220 L1200 480 L0 480Z" fill="#8fa6b3"/>
+  <path d="M440 82 L460 60 L482 86 L470 84 L460 96 L452 84Z M302 128 L320 110 L338 130 L322 124Z M1064 154 L1080 140 L1096 158 L1082 152Z" fill="#f4f1ea"/>
+  <!-- torre no pico -->
+  <g fill="#5a6b78"><rect x="452" y="40" width="14" height="40"/><path d="M448 40 L459 20 L470 40Z"/></g>
+  <rect y="200" width="1200" height="120" fill="url(#mist)"/>
+  <!-- camada distante de árvores -->
+  <g fill="#6f8d82">
+    <use href="#t" x="0" y="230" width="40" height="100"/><use href="#t" x="30" y="245" width="34" height="85"/><use href="#t" x="60" y="225" width="42" height="105"/>
+    <use href="#t" x="95" y="240" width="36" height="90"/><use href="#t" x="125" y="232" width="40" height="98"/><use href="#t" x="160" y="248" width="32" height="82"/>
+    <use href="#t" x="190" y="236" width="38" height="94"/><use href="#t" x="225" y="250" width="30" height="80"/>
+    <use href="#t" x="900" y="236" width="38" height="94"/><use href="#t" x="935" y="226" width="42" height="104"/><use href="#t" x="972" y="244" width="34" height="86"/>
+    <use href="#t" x="1004" y="230" width="40" height="100"/><use href="#t" x="1040" y="246" width="32" height="84"/><use href="#t" x="1070" y="228" width="42" height="102"/>
+    <use href="#t" x="1108" y="240" width="36" height="90"/><use href="#t" x="1140" y="232" width="40" height="98"/><use href="#t" x="1172" y="246" width="32" height="84"/>
+  </g>
+  <path d="M0 320 C 200 300, 400 330, 600 310 C 800 290, 1000 320, 1200 300 L1200 480 L0 480Z" fill="#6f8d82"/>
+  <!-- rio -->
+  <path d="M560 480 C 600 420, 540 380, 610 340 C 650 318, 700 320, 720 312 C 690 330, 660 336, 640 350 C 600 380, 660 420, 640 480Z" fill="#cfe2df" opacity=".9"/>
+  <!-- camada média -->
+  <g fill="#3f5f55">
+    <use href="#t" x="0" y="270" width="52" height="130"/><use href="#t" x="40" y="290" width="46" height="115"/><use href="#t" x="80" y="262" width="56" height="140"/>
+    <use href="#t" x="128" y="296" width="44" height="110"/><use href="#t" x="166" y="276" width="52" height="130"/><use href="#t" x="212" y="300" width="42" height="105"/>
+    <use href="#t" x="250" y="286" width="48" height="120"/><use href="#t" x="292" y="306" width="40" height="100"/><use href="#t" x="330" y="296" width="44" height="110"/>
+    <use href="#t" x="800" y="296" width="44" height="110"/><use href="#t" x="840" y="280" width="50" height="125"/><use href="#t" x="884" y="300" width="42" height="105"/>
+    <use href="#t" x="922" y="272" width="54" height="135"/><use href="#t" x="970" y="292" width="46" height="115"/><use href="#t" x="1012" y="266" width="56" height="140"/>
+    <use href="#t" x="1062" y="290" width="46" height="115"/><use href="#t" x="1102" y="270" width="54" height="135"/><use href="#t" x="1150" y="288" width="50" height="125"/>
+  </g>
+  <!-- primeiro plano -->
+  <path d="M0 420 C 150 400, 300 430, 450 415 C 520 410, 540 440, 560 480 L0 480Z M650 480 C 680 430, 760 410, 900 418 C 1050 426, 1120 400, 1200 410 L1200 480Z" fill="#1f332d"/>
+  <g fill="#1f332d">
+    <use href="#t" x="-10" y="300" width="70" height="180"/><use href="#t" x="50" y="330" width="56" height="150"/><use href="#t" x="100" y="310" width="66" height="170"/>
+    <use href="#t" x="1040" y="306" width="66" height="174"/><use href="#t" x="1094" y="330" width="56" height="150"/><use href="#t" x="1140" y="296" width="72" height="184"/>
+  </g>
+</svg>

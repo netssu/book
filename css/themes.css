@@ -1,0 +1,453 @@
+/* =====================================================================
+   Forja de Tomos — TEMAS
+   1. Tomo Clássico        .theme-classico
+   2. Grimório Sombrio     .theme-sombrio
+   3. Crônica Élfica       .theme-elfico
+   4. Forja Anã            .theme-anao
+   5. Diário do Explorador .theme-explorador
+   ===================================================================== */
+
+
+/* =====================================================================
+   1. TOMO CLÁSSICO — pergaminho, tinta vermelha, versaletes
+   ===================================================================== */
+.theme-classico {
+  --page-bg:
+    radial-gradient(ellipse at 18% 8%, rgba(255,255,255,.55), transparent 55%),
+    radial-gradient(ellipse at 92% 96%, rgba(170,125,60,.24), transparent 55%),
+    radial-gradient(ellipse at 0% 100%, rgba(170,125,60,.12), transparent 40%),
+    #f1e6cc;
+  --ink: #201b15; --accent: #58180d; --accent2: #a8863f; --muted: #6a5a45;
+  --h-color: #58180d; --rule: #c9ad6a;
+  --font-body: 'Crimson Pro', Georgia, serif;
+  --font-head: 'Cormorant SC', serif; --font-sc: 'Cormorant SC', serif; --font-h1: 'Cormorant SC', serif;
+  --font-sans: 'Alegreya Sans', sans-serif; --font-drop: 'Cinzel Decorative', serif;
+  --fs: 10.6pt; --lh: 1.2; --indent: 1em;
+  --h1-size: 38pt; --h2-size: 21pt; --h3-size: 15.5pt; --h4-size: 12.5pt;
+  --note-bg: #e0e5c1; --side-bg: #e9dfd6; --read-bg: #faf4e4; --box-bg: #ebe0c7;
+  --stripe: rgba(224,229,193,.8); --mark: rgba(214,180,100,.45); --drop-size: 4em;
+  --hr-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 4' preserveAspectRatio='none'><polygon points='0,2 50,0 100,2 50,4' fill='%23c9ad6a'/></svg>") center / 100% 4px no-repeat;
+  --h1-orn: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 18'><path d='M0 9h178M222 9h178' stroke='%23c9ad6a' stroke-width='2'/><circle cx='186' cy='9' r='2.6' fill='%23c9ad6a'/><circle cx='214' cy='9' r='2.6' fill='%23c9ad6a'/><path d='M200 1l9 8-9 8-9-8z' fill='%2358180d'/><path d='M200 5l4 4-4 4-4-4z' fill='%23c9ad6a'/></svg>") center / 100% 18px no-repeat;
+}
+.theme-classico .page h2, .theme-classico .page h3, .theme-classico .page h4, .theme-classico .page h1.chapter { font-weight: 700; }
+.theme-classico .page h1.chapter .ch-label { font-family: 'Alegreya Sans SC', sans-serif; font-weight: 700; font-size: 11pt; letter-spacing: .3em; }
+.theme-classico .page h5 { font-family: 'Alegreya Sans SC', sans-serif; font-size: 10.5pt; }
+.theme-classico .page table { font-family: 'Alegreya Sans', sans-serif; }
+.theme-classico .page th { font-weight: 700; border-bottom: 1px solid rgba(88,24,13,.25); }
+.theme-classico .page figure img { box-shadow: 0 2px 8px rgba(60,40,10,.35); }
+
+.theme-classico .page .box.nota { border-top: 3px solid #2b211a; border-bottom: 3px solid #2b211a; box-shadow: 0 0 6px rgba(80,60,20,.25); padding: .1in .14in; }
+.theme-classico .page .box.nota .box-title { font-family: 'Cormorant SC', serif; font-weight: 700; font-size: 13pt; color: #2b211a; }
+.theme-classico .page .box.quadro { border: 1px solid #6b4e3d; box-shadow: 1px 2px 6px rgba(0,0,0,.35); padding: .1in .14in; }
+.theme-classico .page .box.quadro .box-title { font-family: 'Alegreya Sans SC', sans-serif; font-weight: 700; font-size: 11pt; color: #2b211a; }
+.theme-classico .page .box.leitura { font-style: italic; border: 1px solid #c9ad6a; outline: 1px solid #c9ad6a; outline-offset: -5px; padding: .14in .18in; box-shadow: 0 1px 4px rgba(80,60,20,.25); }
+.theme-classico .page .box.destaque { background: #58180d; color: #f6ecd6; border: 2px solid #c9ad6a; outline: 1px solid #58180d; padding: .12in .16in; }
+.theme-classico .page .box.destaque .box-title { color: #e8cf8f; font-family: 'Cormorant SC', serif; font-weight: 700; font-size: 14pt; }
+.theme-classico .page .box.destaque strong { color: #ffe7a6; }
+.theme-classico .page .box.citacao { font-size: 1.08em; color: #3d2a1c; }
+.theme-classico .page .box.citacao::before { content: '“'; display: block; font: 700 34pt/0.6 'Cinzel Decorative', serif; color: #c9ad6a; margin-top: .1in; }
+.theme-classico .page .box.criatura {
+  background: #fdf1dc; border-top: 5px solid #e69a28; border-bottom: 5px solid #e69a28;
+  box-shadow: 0 0 1.2em rgba(134,116,83,.6); padding: .1in .14in; color: #1e1a16;
+}
+.theme-classico .page .box.criatura .box-title { font-family: 'Cormorant SC', serif; font-weight: 700; font-size: 19pt; color: #7a200d; line-height: 1; }
+.theme-classico .page .box.criatura h4 { color: #7a200d; font-size: 13.5pt; border-color: #7a200d; }
+.theme-classico .page .box.criatura strong { color: #7a200d; }
+.theme-classico .page .box.criatura hr { background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 5' preserveAspectRatio='none'><polygon points='0,0 100,2.5 0,5' fill='%239c2b1b'/></svg>") left / 100% 5px no-repeat; }
+.theme-classico .page .box.criatura .abilities { color: #7a200d; font-family: 'Alegreya Sans', sans-serif; }
+.theme-classico .page .box.magia { background: #f7efdc; border: 3px double #a8863f; padding: .1in .14in; }
+.theme-classico .page .box.magia .box-title { font-family: 'Cormorant SC', serif; font-weight: 700; font-size: 15pt; }
+.theme-classico .page .box.item { background: #efe5cf; border-left: 4px solid #58180d; padding-left: .14in; }
+.theme-classico .page .box.item .box-title { font-family: 'Cormorant SC', serif; font-weight: 700; font-size: 13.5pt; }
+
+.theme-classico .page-deco::after {
+  content: ''; position: absolute; left: .45in; right: .45in; bottom: .7in; height: 3px;
+  background: linear-gradient(90deg, transparent, #c9ad6a 12%, #c9ad6a 88%, transparent);
+}
+.theme-classico .page-footer { bottom: .26in; font-family: 'Cormorant SC', serif; font-weight: 700; font-size: 9.5pt; letter-spacing: .08em; color: #58180d; }
+.theme-classico .pnum {
+  width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 30%, #7d2a17, #4a130a); color: #f3e3b8;
+  font: 700 11pt 'Crimson Pro', serif; box-shadow: 0 0 0 2px #f1e6cc, 0 0 0 3.5px #c9ad6a, 0 2px 5px rgba(0,0,0,.35);
+}
+.theme-classico .page .cover h1 { font-family: 'Cinzel Decorative', serif; font-weight: 700; color: #f3dfa6; }
+.theme-classico .page .toc-heading { font-weight: 700; }
+
+
+/* =====================================================================
+   2. GRIMÓRIO SOMBRIO — escuro, gótico, brilho arcano
+   ===================================================================== */
+.theme-sombrio {
+  --page-bg:
+    radial-gradient(ellipse at 50% 35%, rgba(120,80,170,.18), transparent 60%),
+    radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,.6) 100%),
+    #17131b;
+  --ink: #e2d9ca; --accent: #b48cff; --accent2: #7fd4a8; --muted: #a79bb5;
+  --h-color: #c9a8ff; --rule: #5f4a85;
+  --font-body: 'Spectral', Georgia, serif; --font-head: 'Grenze Gotisch', serif; --font-h1: 'Grenze Gotisch', serif;
+  --font-sc: 'Spectral SC', serif; --font-sans: 'Spectral', serif; --font-drop: 'UnifrakturCook', serif;
+  --fs: 9.9pt; --lh: 1.38; --align: justify; --split-last: justify; --indent: 1.2em;
+  --h1-size: 48pt; --h2-size: 24pt; --h3-size: 13pt; --h4-size: 11pt;
+  --note-bg: rgba(127,212,168,.07); --side-bg: #221b2a; --read-bg: rgba(0,0,0,.35); --box-bg: rgba(255,255,255,.04);
+  --th-bg: #3a2a4f; --th-color: #efe3ff; --stripe: rgba(180,140,255,.07); --mark: rgba(180,140,255,.35);
+  --drop-color: #c9a8ff; --drop-size: 4.3em;
+  --cover-shade: linear-gradient(rgba(10,5,20,.7), transparent 45%, transparent 60%, rgba(10,5,20,.8));
+  --hr-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 14'><path d='M0 7h128M172 7h128' stroke='%235f4a85' stroke-width='1'/><path d='M150 0l7 7-7 7-7-7z' fill='none' stroke='%23b48cff' stroke-width='1.2'/><circle cx='150' cy='7' r='2' fill='%237fd4a8'/><circle cx='136' cy='7' r='1.5' fill='%23b48cff'/><circle cx='164' cy='7' r='1.5' fill='%23b48cff'/></svg>") center / 100% 14px no-repeat;
+  --h1-orn: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 24'><defs><linearGradient id='g'><stop offset='0' stop-color='%23b48cff' stop-opacity='0'/><stop offset='1' stop-color='%23b48cff'/></linearGradient></defs><rect x='20' y='11.5' width='158' height='1' fill='url(%23g)'/><rect x='222' y='11.5' width='158' height='1' fill='url(%23g)' transform='rotate(180 301 12)'/><path d='M200 2a10 10 0 1 0 6 18a8 8 0 1 1 -6 -18z' fill='%23c9a8ff'/><circle cx='186' cy='12' r='2' fill='%237fd4a8'/><circle cx='214' cy='12' r='2' fill='%237fd4a8'/></svg>") center / 100% 24px no-repeat;
+}
+.theme-sombrio .page { font-weight: 300; }
+.theme-sombrio .page strong { font-weight: 600; color: #f2e9ff; }
+.theme-sombrio .page em { color: #efe6d6; }
+.theme-sombrio .page h1.chapter { background: radial-gradient(ellipse 55% 60% at 50% 58%, rgba(180,140,255,.24), transparent 72%); }
+.theme-sombrio .page h1.chapter .ch-title { font-weight: 700; }
+.theme-sombrio .page h1.chapter .ch-label { color: #7fd4a8; letter-spacing: .45em; font-size: 10.5pt; }
+.theme-sombrio .page h2 { font-weight: 600; }
+.theme-sombrio .page h3 { font-family: 'Spectral SC', serif; font-weight: 600; letter-spacing: .06em; color: #7fd4a8; border-bottom: 1px solid rgba(127,212,168,.35); }
+.theme-sombrio .page h4 { color: #d9b56f; font-weight: 600; letter-spacing: .04em; }
+.theme-sombrio .page h5 { font-family: 'Spectral SC', serif; color: #c9a8ff; font-weight: 600; letter-spacing: .05em; }
+.theme-sombrio .page td { border-bottom: 1px solid rgba(255,255,255,.05); }
+.theme-sombrio .page th { font-family: 'Spectral SC', serif; font-weight: 600; letter-spacing: .04em; }
+.theme-sombrio .page figure img { border: 1px solid #5f4a85; box-shadow: 0 0 18px rgba(0,0,0,.8), 0 0 0 4px rgba(23,19,27,1), 0 0 0 5px rgba(180,140,255,.25); }
+.theme-sombrio .page code, .theme-sombrio .page pre { background: rgba(0,0,0,.4); color: #d7c6ff; }
+.theme-sombrio .page a { color: #c9a8ff; }
+
+.theme-sombrio .page .box.nota { border: 1px solid rgba(127,212,168,.45); box-shadow: 0 0 14px rgba(127,212,168,.12), inset 0 0 20px rgba(127,212,168,.06); padding: .11in .14in; }
+.theme-sombrio .page .box.nota .box-title { font-family: 'Spectral SC', serif; font-weight: 600; color: #7fd4a8; font-size: 11.5pt; letter-spacing: .05em; }
+.theme-sombrio .page .box.quadro { border-left: 3px solid #b48cff; box-shadow: 0 6px 18px rgba(0,0,0,.6); padding: .11in .14in; font-size: .94em; }
+.theme-sombrio .page .box.quadro .box-title { font-family: 'Grenze Gotisch', serif; font-weight: 600; font-size: 15pt; color: #c9a8ff; }
+.theme-sombrio .page .box.leitura { border: 1px dashed rgba(217,181,111,.5); font-style: italic; color: #f1e7d2; padding: .12in .16in; }
+.theme-sombrio .page .box.destaque { background: linear-gradient(135deg, #3a1f4f, #1f1528); border: 1px solid #b48cff; box-shadow: 0 0 20px rgba(180,140,255,.25); padding: .12in .16in; }
+.theme-sombrio .page .box.destaque .box-title { font-family: 'Grenze Gotisch', serif; font-size: 16pt; color: #e6d5ff; }
+.theme-sombrio .page .box.citacao { color: #cbbfdc; font-size: 1.06em; }
+.theme-sombrio .page .box.citacao::before { content: '✠'; display: block; color: #b48cff; font-size: 16pt; margin-bottom: .04in; font-style: normal; }
+.theme-sombrio .page .box.criatura { background: #1e1824; border-top: 3px solid #8a5cd6; border-bottom: 3px solid #8a5cd6; box-shadow: 0 0 18px rgba(138,92,214,.3); padding: .1in .14in; font-family: 'Spectral', serif; }
+.theme-sombrio .page .box.criatura .box-title { font-family: 'Grenze Gotisch', serif; font-weight: 700; font-size: 21pt; color: #d6bcff; }
+.theme-sombrio .page .box.criatura h4 { color: #c9a8ff; border-color: rgba(201,168,255,.5); }
+.theme-sombrio .page .box.criatura strong { color: #d6bcff; }
+.theme-sombrio .page .box.criatura hr { background: linear-gradient(90deg, #8a5cd6, transparent) left / 100% 2px no-repeat; height: 6px; }
+.theme-sombrio .page .box.criatura .abilities { color: #e6d5ff; }
+.theme-sombrio .page .box.magia { border: 1px solid rgba(217,181,111,.55); background: radial-gradient(circle at 50% 0, rgba(217,181,111,.13), transparent 70%); padding: .11in .14in; }
+.theme-sombrio .page .box.magia .box-title { font-family: 'Spectral SC', serif; font-weight: 600; color: #e7c886; font-size: 13pt; }
+.theme-sombrio .page .box.item { border: 1px solid #5f4a85; padding: .1in .14in; }
+.theme-sombrio .page .box.item .box-title { font-family: 'Grenze Gotisch', serif; font-size: 15pt; color: #c9a8ff; }
+
+.theme-sombrio .page-deco::before { content: ''; position: absolute; inset: .22in; border: 1px solid rgba(180,140,255,.3); box-shadow: inset 0 0 0 4px #17131b00, inset 0 0 0 5px rgba(180,140,255,.12); }
+.theme-sombrio .page-deco::after {
+  content: ''; position: absolute; inset: calc(.22in - 17px);
+  --star: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><path d='M20 1 L23 17 L39 20 L23 23 L20 39 L17 23 L1 20 L17 17Z' fill='%23b48cff' opacity='.85'/><circle cx='20' cy='20' r='4' fill='%2317131b'/><circle cx='20' cy='20' r='1.8' fill='%237fd4a8'/></svg>");
+  background: var(--star) 0 0 / 34px no-repeat, var(--star) 100% 0 / 34px no-repeat, var(--star) 0 100% / 34px no-repeat, var(--star) 100% 100% / 34px no-repeat;
+}
+.theme-sombrio .page-footer { justify-content: center; bottom: .34in; font-family: 'Spectral SC', serif; color: #a79bb5; font-size: 8.5pt; letter-spacing: .1em; }
+.theme-sombrio .page-footer::before { content: ''; position: absolute; left: 22%; right: 22%; top: 50%; height: 1px; background: linear-gradient(90deg, transparent, #5f4a85, transparent); }
+.theme-sombrio .running { position: absolute; right: 0; }
+.theme-sombrio .page.even .running { right: auto; left: 0; }
+.theme-sombrio .pnum { width: 34px; height: 34px; display: grid; place-items: center; color: #f1e7d2; font: 600 10pt 'Spectral', serif; }
+.theme-sombrio .pnum::before { content: ''; position: absolute; inset: 5px; transform: rotate(45deg); background: #241c2d; border: 1px solid #b48cff; box-shadow: 0 0 10px rgba(180,140,255,.5); }
+.theme-sombrio .page .cover h1 { font-family: 'Grenze Gotisch', serif; font-weight: 700; color: #e6d5ff; font-size: 58pt; }
+.theme-sombrio .page .cover h2 { color: #7fd4a8; }
+.theme-sombrio .page .toc-l1 a { color: #c9a8ff; }
+.theme-sombrio .page .art-caption { background: rgba(23,19,27,.8); border: 1px solid #5f4a85; }
+
+
+/* =====================================================================
+   3. CRÔNICA ÉLFICA — marfim, esmeralda, ouro, vinhas
+   ===================================================================== */
+.theme-elfico {
+  --page-bg:
+    radial-gradient(circle at 0 0, rgba(76,128,88,.2), transparent 30%),
+    radial-gradient(circle at 100% 100%, rgba(76,128,88,.18), transparent 30%),
+    radial-gradient(ellipse at 50% 45%, #fcfbf2, #eeebd6 92%);
+  --ink: #263028; --accent: #2f5d46; --accent2: #a8872f; --muted: #5e6b60;
+  --h-color: #2f5d46; --rule: #c2a55a;
+  --font-body: 'EB Garamond', Georgia, serif; --font-head: 'Cormorant Garamond', serif;
+  --font-sc: 'Cormorant Unicase', serif; --font-h1: 'Cormorant Unicase', serif;
+  --font-sans: 'EB Garamond', serif; --font-drop: 'Cormorant Unicase', serif;
+  --fs: 10.4pt; --lh: 1.3; --align: justify; --split-last: justify; --indent: 1.4em;
+  --pad-x: .68in;
+  --h1-size: 40pt; --h2-size: 22pt; --h3-size: 13pt; --h4-size: 12.5pt;
+  --note-bg: rgba(47,93,70,.08); --side-bg: rgba(194,165,90,.13); --read-bg: rgba(255,255,255,.55); --box-bg: rgba(255,255,255,.45);
+  --th-bg: transparent; --stripe: rgba(47,93,70,.07); --mark: rgba(194,165,90,.35);
+  --drop-size: 3.7em;
+  --cover-shade: linear-gradient(rgba(10,30,20,.5), transparent 40%, transparent 65%, rgba(10,30,20,.65));
+  --hr-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 16'><path d='M10 8 C 50 8, 70 2, 92 8 M190 8 C 150 8, 130 2, 108 8' stroke='%23c2a55a' stroke-width='1.2' fill='none'/><path d='M100 2 C 106 6, 106 10, 100 14 C 94 10, 94 6, 100 2z' fill='%232f5d46'/><path d='M88 8 q-6 -6 -12 -4 q4 6 12 4z M112 8 q6 -6 12 -4 q-4 6 -12 4z' fill='%232f5d46' opacity='.8'/></svg>") center / 60% 16px no-repeat;
+  --h1-orn: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 24'><g fill='none' stroke='%23a8872f' stroke-width='1.3'><path d='M150 12 C 132 0, 114 0, 104 12 C 94 24, 60 22, 8 12'/><path d='M150 12 C 168 0, 186 0, 196 12 C 206 24, 240 22, 292 12'/></g><circle cx='150' cy='12' r='4.5' fill='%232f5d46'/><circle cx='150' cy='12' r='1.8' fill='%23c2a55a'/><path d='M104 12 q-8 -11 -19 -8 q5 9 19 8z M196 12 q8 -11 19 -8 q-5 9 -19 8z M60 18 q-6 -8 -14 -6 q4 7 14 6z M240 18 q6 -8 14 -6 q-4 7 -14 6z' fill='%232f5d46'/></svg>") center / 100% 24px no-repeat;
+}
+.theme-elfico .page h1.chapter { font-weight: 600; }
+.theme-elfico .page h1.chapter .ch-label { font-family: 'Cormorant Garamond', serif; font-style: italic; text-transform: none; letter-spacing: .06em; font-size: 15pt; color: #a8872f; font-weight: 600; }
+.theme-elfico .page h2 { font-style: italic; font-weight: 600; }
+.theme-elfico .page h2::before { content: '❧ '; color: #c2a55a; font-style: normal; font-size: .8em; }
+.theme-elfico .page h3 { font-family: 'Cormorant Unicase', serif; font-weight: 600; color: #8a6d24; border-bottom: 1px solid #c2a55a; letter-spacing: .03em; }
+.theme-elfico .page h4 { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-style: italic; color: #2f5d46; }
+.theme-elfico .page h5 { font-family: 'Cormorant Unicase', serif; font-weight: 600; color: #2f5d46; font-size: 11pt; text-align: center; }
+.theme-elfico .page p.dropcap::first-letter { border: 1px solid #c2a55a; outline: 1px solid #c2a55a; outline-offset: 2px; padding: .06em .12em .02em; margin: .08em .14em 0 .03em; background: rgba(47,93,70,.08); line-height: .86; font-weight: 600; }
+.theme-elfico .page table { font-family: 'EB Garamond', serif; font-size: 9.4pt; }
+.theme-elfico .page th { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 11pt; border-bottom: 2px solid #c2a55a; color: #2f5d46; }
+.theme-elfico .page td { border-bottom: 1px solid rgba(194,165,90,.3); }
+.theme-elfico .page figure img { border-radius: 10px; border: 1px solid #c2a55a; padding: 3px; background: #fffdf3; box-shadow: 0 2px 10px rgba(47,93,70,.2); }
+.theme-elfico .page figcaption { font-family: 'Cormorant Garamond', serif; font-size: 10pt; }
+
+.theme-elfico .page .box { border-radius: 10px; }
+.theme-elfico .page .box.nota { border: 3px double #6f9a7d; padding: .11in .16in; }
+.theme-elfico .page .box.nota .box-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 700; font-size: 14pt; color: #2f5d46; text-align: center; }
+.theme-elfico .page .box.quadro { border: 1px solid #c2a55a; border-radius: 0 22px 0 22px; padding: .12in .16in; font-family: 'EB Garamond', serif; }
+.theme-elfico .page .box.quadro .box-title { font-family: 'Cormorant Unicase', serif; font-weight: 600; font-size: 13pt; color: #8a6d24; }
+.theme-elfico .page .box.leitura { border-top: 1px solid #c2a55a; border-bottom: 1px solid #c2a55a; border-radius: 0; font-style: italic; text-align: center; padding: .14in .14in .1in; background: linear-gradient(rgba(255,255,255,.6), rgba(255,255,255,.2)); }
+.theme-elfico .page .box.leitura p { text-align: center; }
+.theme-elfico .page .box.leitura::before { content: '✦'; position: absolute; top: -.6em; left: 50%; transform: translateX(-50%); color: #a8872f; background: #f6f4e4; padding: 0 .3em; font-style: normal; }
+.theme-elfico .page .box.destaque { background: #2f5d46; color: #f4f1e1; border: 1px solid #c2a55a; box-shadow: inset 0 0 0 4px #2f5d46, inset 0 0 0 5px #c2a55a; padding: .14in .18in; }
+.theme-elfico .page .box.destaque .box-title { font-family: 'Cormorant Unicase', serif; color: #e9d39a; font-size: 14pt; text-align: center; }
+.theme-elfico .page .box.destaque strong { color: #f3e2b2; }
+.theme-elfico .page .box.citacao { font-family: 'Cormorant Garamond', serif; font-size: 1.22em; color: #2f5d46; font-weight: 500; }
+.theme-elfico .page .box.criatura { background: #f8f7ec; border: 1px solid #c2a55a; border-radius: 6px; box-shadow: 0 1px 8px rgba(47,93,70,.25); padding: .11in .15in; font-family: 'EB Garamond', serif; }
+.theme-elfico .page .box.criatura .box-title { font-family: 'Cormorant Unicase', serif; font-weight: 700; font-size: 19pt; color: #2f5d46; }
+.theme-elfico .page .box.criatura h4 { color: #2f5d46; border-color: #c2a55a; }
+.theme-elfico .page .box.criatura strong { color: #2f5d46; }
+.theme-elfico .page .box.criatura hr { background: linear-gradient(90deg, #2f5d46, #c2a55a 60%, transparent) left / 100% 2px no-repeat; }
+.theme-elfico .page .box.magia { border: 1px solid #c2a55a; border-radius: 46px 46px 8px 8px; padding: .16in .18in .12in; background: radial-gradient(ellipse at 50% 0, rgba(194,165,90,.18), transparent 70%); }
+.theme-elfico .page .box.magia .box-title { font-family: 'Cormorant Unicase', serif; font-weight: 600; font-size: 15pt; text-align: center; color: #2f5d46; }
+.theme-elfico .page .box.item { border: 1px dashed #c2a55a; padding: .11in .15in; }
+.theme-elfico .page .box.item .box-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 700; font-size: 14pt; color: #8a6d24; }
+
+.theme-elfico .page-deco::before { content: ''; position: absolute; inset: .26in; border: 1px solid rgba(168,135,47,.45); border-radius: 18px; }
+.theme-elfico .page-deco::after {
+  content: ''; position: absolute; inset: .08in;
+  background:
+    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><g fill='none' stroke-linecap='round'><path d='M6 114 C 6 50, 50 6, 114 6' stroke='%23a8872f' stroke-width='1.6'/><path d='M16 114 C 18 62, 62 18, 114 16' stroke='%232f5d46' stroke-width='.9' opacity='.55'/><path d='M20 40 C 30 30, 40 30, 44 40' stroke='%23a8872f' stroke-width='1'/></g><g fill='%232f5d46'><ellipse cx='22' cy='70' rx='9' ry='3.5' transform='rotate(-70 22 70)'/><ellipse cx='36' cy='44' rx='9' ry='3.5' transform='rotate(-45 36 44)'/><ellipse cx='62' cy='22' rx='9' ry='3.5' transform='rotate(-20 62 22)'/><ellipse cx='90' cy='12' rx='7' ry='3' transform='rotate(-8 90 12)'/></g><circle cx='8' cy='8' r='4' fill='%23c2a55a'/></svg>") 0 0 / 1.1in no-repeat,
+    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><g transform='rotate(180 60 60)'><g fill='none' stroke-linecap='round'><path d='M6 114 C 6 50, 50 6, 114 6' stroke='%23a8872f' stroke-width='1.6'/><path d='M16 114 C 18 62, 62 18, 114 16' stroke='%232f5d46' stroke-width='.9' opacity='.55'/></g><g fill='%232f5d46'><ellipse cx='22' cy='70' rx='9' ry='3.5' transform='rotate(-70 22 70)'/><ellipse cx='36' cy='44' rx='9' ry='3.5' transform='rotate(-45 36 44)'/><ellipse cx='62' cy='22' rx='9' ry='3.5' transform='rotate(-20 62 22)'/><ellipse cx='90' cy='12' rx='7' ry='3' transform='rotate(-8 90 12)'/></g><circle cx='8' cy='8' r='4' fill='%23c2a55a'/></g></svg>") 100% 100% / 1.1in no-repeat;
+}
+.theme-elfico .page-footer { justify-content: center; bottom: .36in; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 10pt; color: #5e6b60; }
+.theme-elfico .page-footer::before {
+  content: ''; position: absolute; left: 50%; top: 50%; width: 1.75in; height: 18px; transform: translate(-50%, -50%);
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 22'><g fill='none' stroke='%23a8872f' stroke-width='1.1'><path d='M110 11 C 90 2, 70 20, 40 11 S 10 8, 2 11'/><path d='M150 11 C 170 2, 190 20, 220 11 S 250 8, 258 11'/></g><g fill='%232f5d46'><path d='M70 11 q-6 -9 -15 -6 q4 7 15 6z'/><path d='M190 11 q6 -9 15 -6 q-4 7 -15 6z'/></g></svg>") center / contain no-repeat;
+}
+.theme-elfico .running { position: absolute; right: .3in; top: 50%; transform: translateY(-50%); }
+.theme-elfico .page.even .running { right: auto; left: .3in; }
+.theme-elfico .pnum { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: #fbfaf0; border: 1px solid #a8872f; box-shadow: 0 0 0 3px #fbfaf0, 0 0 0 4px rgba(47,93,70,.5); color: #2f5d46; font: 600 11pt 'EB Garamond', serif; }
+.theme-elfico .page .cover h1 { font-family: 'Cormorant Unicase', serif; font-weight: 700; color: #fbf3d6; }
+.theme-elfico .page .cover h2 { font-family: 'Cormorant Garamond', serif; font-style: italic; letter-spacing: .04em; text-transform: none; }
+.theme-elfico .page .toc-l1 a { font-family: 'Cormorant Unicase', serif; }
+.theme-elfico .page .toc-heading { font-weight: 600; text-align: center; }
+
+
+/* =====================================================================
+   4. FORJA ANÃ — manual de ofício: papel cor de pedra, tinta preta e
+      um único tom de cobre; títulos em serifa grossa e réguas tipográficas
+   ===================================================================== */
+.theme-anao {
+  --page-bg:
+    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .2  0 0 0 0 .18  0 0 0 0 .15  0 0 0 .14 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
+    #e7e3d9;
+  --ink: #1f1d1a; --accent: #9a5426; --accent2: #9a5426; --muted: #5d584f;
+  --h-color: #1f1d1a; --rule: #1f1d1a;
+  --font-body: 'Vollkorn', Georgia, serif; --font-head: 'Zilla Slab', Georgia, serif; --font-sc: 'Zilla Slab', serif;
+  --font-h1: 'Zilla Slab', serif; --font-sans: 'Vollkorn', serif; --font-drop: 'Zilla Slab', serif; --font-table: 'Vollkorn', serif;
+  --fs: 9.8pt; --lh: 1.32; --align: justify; --split-last: justify; --indent: 1.2em;
+  --h1-size: 36pt; --h2-size: 17pt; --h3-size: 12pt; --h4-size: 9.5pt;
+  --note-bg: #f0ece4; --side-bg: #d9d2c4; --read-bg: transparent; --box-bg: #f0ece4;
+  --th-bg: transparent; --th-color: #1f1d1a; --stripe: transparent; --mark: rgba(154,84,38,.22);
+  --drop-size: 3.4em; --drop-color: #9a5426;
+  --hr-bg: linear-gradient(#9a5426, #9a5426) center / 1.1in 2px no-repeat;
+  --h1-orn: linear-gradient(#1f1d1a, #1f1d1a) 0 0 / 100% 4px no-repeat, linear-gradient(#1f1d1a, #1f1d1a) 0 7px / 100% 1px no-repeat;
+}
+
+/* títulos */
+.theme-anao .page h1.chapter { text-align: left; margin-bottom: .22in; }
+.theme-anao .page h1.chapter .ch-label { font-weight: 600; font-size: 10pt; letter-spacing: .28em; color: #9a5426; margin-bottom: .05in; }
+.theme-anao .page h1.chapter .ch-title { font-weight: 700; line-height: 1.02; }
+.theme-anao .page .ch-orn { width: 100%; height: 8px; margin: .12in 0 0; }
+.theme-anao .page h2 { font-weight: 700; border-top: 2px solid #1f1d1a; padding-top: 5px; }
+.theme-anao .page h3 { font-weight: 600; color: #9a5426; border: 0; padding: 0; }
+.theme-anao .page h4 { font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.theme-anao .page h5 { font-family: 'Zilla Slab', serif; font-weight: 700; font-size: 10pt; }
+.theme-anao .page p.dropcap::first-letter { font-weight: 700; line-height: .78; margin: .06em .08em 0 0; }
+.theme-anao .page li::marker { color: #9a5426; }
+
+/* tabelas no estilo de livro técnico (réguas, sem preenchimento) */
+.theme-anao .page table { border-top: 2px solid #1f1d1a; border-bottom: 2px solid #1f1d1a; }
+.theme-anao .page th { font-family: 'Zilla Slab', serif; font-weight: 600; font-size: 8.5pt; text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid #1f1d1a; padding: 4px 5px 3px; }
+.theme-anao .page td { border-bottom: 1px solid rgba(31,29,26,.16); }
+.theme-anao .page tbody tr:last-child td { border-bottom: 0; }
+.theme-anao .page figure img { border: 1px solid #1f1d1a; }
+.theme-anao .page figcaption { text-align: left; }
+
+/* caixas */
+.theme-anao .page .box { padding: .1in .13in; }
+.theme-anao .page .box .box-title { font-family: 'Zilla Slab', serif; font-weight: 700; font-size: 11pt; color: #1f1d1a; }
+.theme-anao .page .box.nota { border-top: 3px solid #9a5426; border-bottom: 1px solid #9a5426; }
+.theme-anao .page .box.nota .box-title { font-size: 9.5pt; text-transform: uppercase; letter-spacing: .08em; color: #9a5426; }
+.theme-anao .page .box.quadro { font-family: 'Vollkorn', serif; }
+.theme-anao .page .box.quadro .box-title { font-size: 12pt; }
+.theme-anao .page .box.leitura { font-style: italic; border-left: 4px double #1f1d1a; padding: .02in .14in; }
+.theme-anao .page .box.destaque { background: #1f1d1a; color: #f1ede4; }
+.theme-anao .page .box.destaque .box-title { color: #e0a06b; }
+.theme-anao .page .box.destaque strong { color: #fff; }
+.theme-anao .page .box.citacao { font-size: 1.06em; }
+.theme-anao .page .box.citacao .cite { font-family: 'Zilla Slab', serif; font-variant: normal; text-transform: uppercase; font-size: .78em; letter-spacing: .1em; color: #9a5426; }
+.theme-anao .page .box.criatura { border-top: 4px solid #1f1d1a; border-bottom: 4px solid #1f1d1a; font-family: 'Vollkorn', serif; }
+.theme-anao .page .box.criatura .box-title { font-size: 17pt; line-height: 1.05; }
+.theme-anao .page .box.criatura strong { color: #7a3f17; }
+.theme-anao .page .box.criatura hr { height: 1px; background: #1f1d1a; margin: .06in 0; }
+.theme-anao .page .box.criatura h4 { font-family: 'Zilla Slab', serif; font-size: 10pt; border-bottom: 1px solid #1f1d1a; }
+.theme-anao .page .box.criatura .abilities { border: 0; }
+.theme-anao .page .box.criatura .abilities th { border-bottom: 0; color: #7a3f17; }
+.theme-anao .page .box.magia { border: 1px solid #1f1d1a; }
+.theme-anao .page .box.magia .box-title { font-size: 13pt; }
+.theme-anao .page .box.item { background: transparent; border-top: 1px solid #1f1d1a; border-bottom: 1px solid #1f1d1a; padding-left: 0; padding-right: 0; }
+
+/* rodapé: régua fina, número em serifa grossa, separador de cobre */
+.theme-anao .page-footer { bottom: .32in; gap: .12in; border-top: 1px solid #1f1d1a; padding-top: 7px; align-items: center; }
+.theme-anao .running { font-family: 'Vollkorn', serif; font-variant: small-caps; letter-spacing: .08em; font-size: 9pt; color: #5d584f; line-height: 1; }
+.theme-anao .page.odd .running { border-right: 2px solid #9a5426; padding-right: .12in; }
+.theme-anao .page.even .running { border-left: 2px solid #9a5426; padding-left: .12in; }
+.theme-anao .running.empty { display: none; }
+.theme-anao .pnum { font: 700 12pt 'Zilla Slab', serif; color: #1f1d1a; }
+
+.theme-anao .page .cover h1 { font-family: 'Zilla Slab', serif; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.theme-anao .page .cover h2 { font-family: 'Vollkorn', serif; font-style: italic; letter-spacing: .02em; }
+.theme-anao .page .toc-heading { font-weight: 700; }
+.theme-anao .page .toc-l1 a { font-family: 'Zilla Slab', serif; font-weight: 600; color: #1f1d1a; }
+.theme-anao .page .toc-label { color: #9a5426; }
+
+
+/* =====================================================================
+   5. DIÁRIO DO EXPLORADOR — papel velho, manuscrito, mapas
+   ===================================================================== */
+.theme-explorador {
+  --page-bg:
+    radial-gradient(circle at 91% 3%, transparent 40px, rgba(122,74,24,.32) 42px, rgba(122,74,24,.1) 46px, transparent 51px),
+    radial-gradient(circle at 91% 3%, rgba(122,74,24,.06) 0 40px, transparent 41px),
+    radial-gradient(circle at 14% 82%, rgba(122,74,24,.12), transparent 20%),
+    radial-gradient(ellipse at 50% 50%, transparent 52%, rgba(110,66,20,.38) 100%),
+    linear-gradient(170deg, #f2e4c2, #e6d0a0);
+  --ink: #2d1f12; --accent: #8b2a14; --accent2: #6b4a22; --muted: #6b5236;
+  --h-color: #3f2612; --rule: #8b6a3a;
+  --font-body: 'IM Fell English', Georgia, serif; --font-head: 'IM Fell English SC', serif;
+  --font-sc: 'IM Fell English SC', serif; --font-h1: 'IM Fell English SC', serif;
+  --font-sans: 'IM Fell English', serif; --font-drop: 'IM Fell English SC', serif;
+  --fs: 10.5pt; --lh: 1.24; --indent: 1.1em;
+  --h1-size: 40pt; --h2-size: 21pt; --h3-size: 15pt; --h4-size: 17pt;
+  --note-bg: #fdf6d6; --side-bg: rgba(255,250,235,.4); --read-bg: rgba(255,250,235,.35); --box-bg: rgba(255,250,235,.35);
+  --stripe: transparent; --mark: rgba(230,190,60,.45);
+  --drop-size: 4.2em;
+  --cover-shade: linear-gradient(rgba(40,20,5,.45), transparent 40%, transparent 62%, rgba(40,20,5,.6));
+  --hr-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 8'><path d='M0 4 Q 5 0 10 4 T 20 4 T 30 4 T 40 4' fill='none' stroke='%236b4a22' stroke-width='1.2'/></svg>") center / 40px 8px repeat-x;
+  --h1-orn: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 22'><path d='M8 14 C 50 0, 90 26, 140 12 S 230 2, 270 11' stroke='%238b2a14' stroke-dasharray='5 4' fill='none' stroke-width='1.6'/><circle cx='8' cy='14' r='3' fill='%238b2a14'/><path d='M276 5 l11 11 M287 5 l-11 11' stroke='%238b2a14' stroke-width='2.4' stroke-linecap='round'/></svg>") center / 100% 22px no-repeat;
+}
+.theme-explorador .page h1.chapter { text-align: left; }
+.theme-explorador .page h1.chapter .ch-label { font-family: 'Caveat', cursive; font-weight: 700; text-transform: none; letter-spacing: 0; font-size: 22pt; color: #8b2a14; transform: rotate(-3deg); display: inline-block; }
+.theme-explorador .page h1.chapter .ch-title { color: #3f2612; }
+.theme-explorador .page .ch-orn { margin-left: 0; width: 80%; }
+.theme-explorador .page h2 { padding-bottom: 6px; background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 8'><path d='M2 5 C 30 1, 60 7, 90 4 S 140 2, 158 5' fill='none' stroke='%238b2a14' stroke-width='1.6' stroke-linecap='round'/></svg>") left bottom / 1.6in 7px no-repeat; }
+.theme-explorador .page h3 { font-family: 'IM Fell English', serif; font-style: italic; color: #8b2a14; border-bottom: 1px dashed rgba(139,42,20,.45); }
+.theme-explorador .page h4 { font-family: 'Caveat', cursive; font-weight: 700; color: #6b4a22; }
+.theme-explorador .page h5 { font-family: 'IM Fell English SC', serif; font-weight: 400; font-size: 11pt; color: #3f2612; }
+.theme-explorador .page table { font-family: 'IM Fell English', serif; font-size: 9.4pt; }
+.theme-explorador .page th { font-family: 'IM Fell English SC', serif; font-weight: 400; border-bottom: 3px double #3f2612; }
+.theme-explorador .page td { border-bottom: 1px dashed rgba(63,38,18,.35); }
+.theme-explorador .page figure img { padding: 5px; background: #fffaf0; box-shadow: 1px 2px 7px rgba(0,0,0,.35); transform: rotate(.7deg); }
+.theme-explorador .page figure:nth-of-type(even) img { transform: rotate(-.8deg); }
+.theme-explorador .page figcaption { font-family: 'Caveat', cursive; font-style: normal; font-size: 13pt; color: #3f2612; }
+.theme-explorador .page ul { list-style: none; padding-left: 1.1em; }
+.theme-explorador .page ul > li::before { content: '✗'; color: #8b2a14; margin-left: -1em; width: 1em; display: inline-block; }
+.theme-explorador .page ul > li.cont::before { content: none; }
+.theme-explorador .page .toc-list li::before { content: none; }
+
+.theme-explorador .page .box.nota {
+  font-family: 'Caveat', cursive; font-size: 1.36em; line-height: 1.12; color: #23306b;
+  transform: rotate(-.8deg); box-shadow: 1px 3px 8px rgba(60,40,10,.35); padding: .16in .16in .12in; margin-top: .14in;
+  background-image: repeating-linear-gradient(transparent 0 calc(1.12em - 1px), rgba(60,90,160,.18) calc(1.12em - 1px) 1.12em);
+  background-position: 0 .16in;
+}
+.theme-explorador .page .box.nota::before { content: ''; position: absolute; top: -7px; left: 50%; width: 84px; height: 18px; margin-left: -42px; background: rgba(255,255,240,.6); border: 1px solid rgba(0,0,0,.06); transform: rotate(3deg); box-shadow: 0 1px 2px rgba(0,0,0,.1); }
+.theme-explorador .page .box.nota .box-title { font-family: 'Caveat', cursive; font-weight: 700; font-size: 1.3em; color: #8b2a14; }
+.theme-explorador .page .box.nota p { text-indent: 0; }
+.theme-explorador .col > .box.nota:first-child { margin-top: 10px !important; }
+.theme-explorador .page .box.quadro { border: 2px solid #3f2612; border-radius: 255px 12px 225px 12px / 12px 225px 12px 255px; padding: .14in .16in; font-family: 'IM Fell English', serif; }
+.theme-explorador .page .box.quadro .box-title { font-family: 'IM Fell English SC', serif; font-size: 13pt; color: #3f2612; }
+.theme-explorador .page .box.leitura { font-style: italic; border-left: 4px double #8b6a3a; padding: .06in .14in; }
+.theme-explorador .page .box.leitura::before { content: '“'; position: absolute; left: -.08in; top: -.22in; font: 40pt/1 'IM Fell English', serif; color: rgba(139,42,20,.45); }
+.theme-explorador .page .box.destaque { background: rgba(139,42,20,.05); border: 2px solid #8b2a14; color: #6e1f0d; transform: rotate(-.6deg); padding: .12in .16in; box-shadow: inset 0 0 0 3px rgba(139,42,20,.15); }
+.theme-explorador .page .box.destaque .box-title { font-family: 'IM Fell English SC', serif; letter-spacing: .12em; font-size: 13pt; color: #8b2a14; text-transform: uppercase; }
+.theme-explorador .page .box.citacao { font-family: 'Caveat', cursive; font-style: normal; font-size: 1.5em; line-height: 1.1; color: #3f2612; }
+.theme-explorador .page .box.citacao .cite { font-family: 'IM Fell English SC', serif; font-size: .62em; }
+.theme-explorador .page .box.criatura {
+  background: repeating-linear-gradient(transparent 0 calc(1.25em - 1px), rgba(60,90,150,.2) calc(1.25em - 1px) 1.25em), #fbf3dc;
+  border-left: 2px solid rgba(180,60,60,.55); padding: .12in .14in .12in .22in; box-shadow: 1px 2px 8px rgba(60,40,10,.3); font-family: 'IM Fell English', serif;
+}
+.theme-explorador .page .box.criatura .box-title { font-family: 'IM Fell English SC', serif; font-size: 19pt; color: #8b2a14; }
+.theme-explorador .page .box.criatura strong { color: #6e1f0d; }
+.theme-explorador .page .box.criatura h4 { font-size: 15pt; border-color: rgba(139,42,20,.5); }
+.theme-explorador .page .box.criatura hr { height: 8px; }
+.theme-explorador .page .box.magia { background: #f6ead0; border-radius: 4px; padding: .14in .16in; box-shadow: 0 -5px 0 -2px #c9a978, 0 5px 0 -2px #c9a978, 1px 2px 8px rgba(60,40,10,.3); }
+.theme-explorador .page .box.magia .box-title { font-family: 'IM Fell English SC', serif; font-size: 15pt; color: #3f2612; }
+.theme-explorador .page .box.item { border: 1px dashed #6b4a22; padding: .1in .14in; }
+.theme-explorador .page .box.item .box-title { font-family: 'Caveat', cursive; font-weight: 700; font-size: 17pt; color: #8b2a14; }
+
+.theme-explorador .page-footer { bottom: .22in; font-family: 'IM Fell English', serif; font-style: italic; font-size: 9.5pt; color: #5a3d1c; }
+.theme-explorador .pnum {
+  width: 52px; height: 52px; display: grid; place-items: center; color: #3f2612; font: 700 14pt 'Caveat', cursive;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><g fill='%236b4a22' opacity='.6'><path d='M50 0 L57 43 L100 50 L57 57 L50 100 L43 57 L0 50 L43 43Z'/><path d='M50 18 L54 46 L82 50 L54 54 L50 82 L46 54 L18 50 L46 46Z' transform='rotate(45 50 50)'/></g><circle cx='50' cy='50' r='20' fill='%23efdfb9' stroke='%236b4a22' stroke-width='1.5'/><circle cx='50' cy='50' r='16.5' fill='none' stroke='%236b4a22' stroke-width='.6'/><path d='M50 2 l3 8 h-6z' fill='%238b2a14'/></svg>") center / contain no-repeat;
+}
+.theme-explorador .page .cover h1 { font-family: 'IM Fell English SC', serif; color: #fff4dc; }
+.theme-explorador .page .cover h2 { font-family: 'Caveat', cursive; font-size: 24pt; letter-spacing: 0; text-transform: none; }
+.theme-explorador .page .toc-heading { font-family: 'IM Fell English SC', serif; }
+.theme-explorador .page .toc-l1 a { font-family: 'IM Fell English SC', serif; color: #3f2612; }
+.theme-explorador .page .toc-dots { border-bottom-style: dashed; }
+
+
+/* =====================================================================
+   6. AURA DE KI — versão sóbria: diagramação padrão de livro,
+      só a paleta laranja/azul e títulos esportivos
+   ===================================================================== */
+.theme-ki {
+  --page-bg: #fbf8f2;
+  --ink: #1e1f24; --accent: #e8730c; --accent2: #1f4fa3; --muted: #5a5d68;
+  --h-color: #1f4fa3; --rule: #e8730c;
+  --font-body: 'Nunito', system-ui, sans-serif; --font-head: 'Russo One', sans-serif;
+  --font-sc: 'Russo One', sans-serif; --font-h1: 'Russo One', sans-serif;
+  --font-sans: 'Nunito', sans-serif; --font-drop: 'Russo One', sans-serif;
+  --fs: 9.6pt; --lh: 1.38; --indent: 1em;
+  --h1-size: 32pt; --h2-size: 17pt; --h3-size: 12pt; --h4-size: 10pt;
+  --note-bg: #fcebd6; --side-bg: #e9eef7; --read-bg: #f3f1ec; --box-bg: #f3f1ec;
+  --th-bg: #1f4fa3; --th-color: #fff; --stripe: rgba(232,115,12,.09); --mark: rgba(255,196,60,.55);
+  --drop-size: 3.4em; --drop-color: #e8730c;
+  --hr-bg: linear-gradient(90deg, transparent, #e8730c 20%, #e8730c 80%, transparent) center / 100% 2px no-repeat;
+  --h1-orn: linear-gradient(90deg, #e8730c, #e8730c) left center / 1.2in 4px no-repeat, linear-gradient(90deg, #1f4fa3, transparent) left center / 100% 1px no-repeat;
+}
+.theme-ki .page strong { font-weight: 800; }
+.theme-ki .page h1.chapter { text-align: left; }
+.theme-ki .page h1.chapter .ch-label { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 10pt; letter-spacing: .22em; color: #e8730c; }
+.theme-ki .page h1.chapter .ch-title { color: #1f4fa3; line-height: 1.05; }
+.theme-ki .page .ch-orn { width: 100%; height: 6px; margin-top: .12in; }
+.theme-ki .page h2 { color: #1f4fa3; }
+.theme-ki .page h3 { color: #e8730c; border-bottom: 1px solid rgba(232,115,12,.5); }
+.theme-ki .page h4 { font-family: 'Nunito', sans-serif; font-weight: 800; color: #1f4fa3; text-transform: uppercase; letter-spacing: .05em; }
+.theme-ki .page h5 { font-family: 'Nunito', sans-serif; font-weight: 800; color: #1e1f24; }
+.theme-ki .page th { font-family: 'Nunito', sans-serif; font-weight: 800; }
+.theme-ki .page td { border-bottom: 1px solid rgba(0,0,0,.06); }
+.theme-ki .page figure img { box-shadow: 0 1px 6px rgba(0,0,0,.25); }
+
+.theme-ki .page .box { padding: .1in .14in; }
+.theme-ki .page .box .box-title { font-family: 'Russo One', sans-serif; font-size: 11pt; color: #1f4fa3; }
+.theme-ki .page .box.nota { border-left: 4px solid #e8730c; }
+.theme-ki .page .box.nota .box-title { color: #b85600; }
+.theme-ki .page .box.quadro { border: 1px solid #b9c7e2; box-shadow: 0 1px 4px rgba(31,79,163,.18); }
+.theme-ki .page .box.leitura { font-style: italic; border-left: 3px solid #1f4fa3; }
+.theme-ki .page .box.destaque { background: #fff; border: 2px solid #e8730c; }
+.theme-ki .page .box.destaque .box-title { color: #e8730c; }
+.theme-ki .page .box.citacao { font-size: 1.08em; color: #3a3d48; }
+.theme-ki .page .box.criatura { background: #fffdf8; border-top: 4px solid #e8730c; border-bottom: 4px solid #e8730c; box-shadow: 0 1px 6px rgba(0,0,0,.18); }
+.theme-ki .page .box.criatura .box-title { font-size: 16pt; color: #e8730c; }
+.theme-ki .page .box.criatura strong { color: #1f4fa3; }
+.theme-ki .page .box.criatura h4 { color: #e8730c; border-color: rgba(232,115,12,.6); }
+.theme-ki .page .box.criatura hr { background: linear-gradient(90deg, #e8730c, transparent) left / 100% 2px no-repeat; }
+.theme-ki .page .box.magia { background: #eef3fb; border-top: 3px solid #1f4fa3; }
+.theme-ki .page .box.magia .box-title { font-size: 13pt; }
+.theme-ki .page .box.item { border: 1px dashed #e8730c; background: #fff; }
+
+.theme-ki .page-deco::after { content: ''; position: absolute; left: .6in; right: .6in; bottom: .58in; height: 1px; background: #d9d4ca; }
+.theme-ki .page-footer { bottom: .3in; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 7.5pt; letter-spacing: .14em; text-transform: uppercase; color: #5a5d68; }
+.theme-ki .pnum { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #e8730c; color: #fff; font: 400 10pt 'Russo One', sans-serif; }
+.theme-ki .page .cover h1 { font-family: 'Russo One', sans-serif; font-size: 44pt; }
+.theme-ki .page .cover h2 { font-family: 'Nunito', sans-serif; font-weight: 800; }
+.theme-ki .page .toc-l1 a { color: #1f4fa3; }

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 470">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f3d58b"/><stop offset=".5" stop-color="#c79a3e"/><stop offset="1" stop-color="#8a6222"/>
+    </linearGradient>
+    <linearGradient id="field" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2f6b4f"/><stop offset="1" stop-color="#173a2b"/>
+    </linearGradient>
+    <clipPath id="sh"><path d="M60 40 H340 V200 C340 300 270 360 200 400 C130 360 60 300 60 200Z"/></clipPath>
+  </defs>
+  <!-- escudo -->
+  <path d="M50 30 H350 V200 C350 310 275 372 200 414 C125 372 50 310 50 200Z" fill="url(#gold)"/>
+  <path d="M60 40 H340 V200 C340 300 270 360 200 400 C130 360 60 300 60 200Z" fill="url(#field)"/>
+  <g clip-path="url(#sh)">
+    <path d="M200 40 V400" stroke="#0f2a1f" stroke-width="2" opacity=".35"/>
+    <path d="M60 230 L200 140 L340 230 V260 L200 170 L60 260Z" fill="url(#gold)"/>
+  </g>
+  <!-- árvore estilizada -->
+  <g fill="#e9d39a">
+    <rect x="193" y="250" width="14" height="80" rx="3"/>
+    <path d="M200 205 C 240 210, 262 240, 250 262 C 270 270, 266 300, 240 300 C 236 318, 210 320, 200 306 C 190 320, 164 318, 160 300 C 134 300, 130 270, 150 262 C 138 240, 160 210, 200 205Z" opacity=".95"/>
+    <path d="M200 330 C 180 340, 160 352, 140 352 M200 330 C 220 340, 240 352, 260 352" stroke="#e9d39a" stroke-width="5" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- estrela -->
+  <path d="M200 70 L209 96 L236 96 L214 112 L222 138 L200 122 L178 138 L186 112 L164 96 L191 96Z" fill="#f6e3a8"/>
+  <!-- faixa -->
+  <path d="M20 400 L80 388 L80 444 L20 456 L38 428Z M380 400 L320 388 L320 444 L380 456 L362 428Z" fill="#7a1f12"/>
+  <path d="M70 380 C 150 400, 250 400, 330 380 L330 436 C 250 456, 150 456, 70 436Z" fill="#a32a18"/>
+  <text x="200" y="426" text-anchor="middle" font-family="Georgia, serif" font-size="26" font-weight="bold" fill="#f6e3a8" letter-spacing="6">ÉBANO</text>
+</svg>

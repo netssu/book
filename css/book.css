@@ -1,0 +1,188 @@
+/* =====================================================================
+   Forja de Tomos — Estrutura base das páginas
+   Os temas (themes.css) mudam variáveis e decorações.
+   ===================================================================== */
+.book-pages {
+  --page-w: 8.5in; --page-h: 11in;
+  --pad-top: .6in; --pad-bottom: .85in; --pad-x: .6in; --col-gap: .28in;
+  --page-bg: #fff; --ink: #222; --accent: #7a1f12; --accent2: #a88a4a; --muted: #6b5f50;
+  --font-body: Georgia, serif; --font-head: Georgia, serif; --font-sc: Georgia, serif;
+  --font-sans: system-ui, sans-serif; --font-drop: var(--font-head); --font-h1: var(--font-head);
+  --fs: 10pt; --lh: 1.28; --indent: 1em; --align: left; --split-last: auto;
+  --h-color: var(--accent); --rule: var(--accent2);
+  --h1-size: 34pt; --h2-size: 19pt; --h3-size: 14pt; --h4-size: 11.5pt;
+  --box-bg: #efe9dc; --note-bg: #e5ead0; --side-bg: #ebe2d8; --read-bg: #f6f0e0;
+  --th-bg: transparent; --th-color: var(--ink); --stripe: rgba(0,0,0,.06);
+  --mark: rgba(255,214,90,.55);
+  --hr-bg: linear-gradient(90deg, transparent, var(--rule), transparent) center / 100% 2px no-repeat;
+  --h1-orn: linear-gradient(90deg, transparent, var(--rule), transparent) center / 100% 2px no-repeat;
+}
+.book-pages.size-a4 { --page-w: 210mm; --page-h: 297mm; }
+
+.page {
+  position: relative; width: var(--page-w); height: var(--page-h); overflow: hidden;
+  background: var(--page-bg); color: var(--ink);
+  font-family: var(--font-body); font-size: var(--fs); line-height: var(--lh);
+  hyphens: auto; -webkit-hyphens: auto; font-kerning: normal; text-rendering: optimizeLegibility;
+  box-sizing: border-box;
+}
+.page *, .page *::before, .page *::after { box-sizing: border-box; }
+.page-deco { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.page-inner { position: absolute; top: var(--pad-top); bottom: var(--pad-bottom); left: var(--pad-x); right: var(--pad-x); z-index: 1; }
+.page-body { position: relative; height: 100%; }
+.cols { display: flex; gap: var(--col-gap); margin-bottom: .14in; }
+.col { flex: 1 1 0; min-width: 0; position: relative; overflow: hidden; display: flow-root; }
+.col > :first-child, .page-body > :first-child { margin-top: 0 !important; }
+.page-body > .wide { margin-bottom: .16in; }
+
+/* ---------- rodapé ---------- */
+.page-footer {
+  position: absolute; z-index: 2; left: var(--pad-x); right: var(--pad-x); bottom: .3in;
+  display: flex; align-items: center; justify-content: flex-end; gap: .14in; font-size: 8pt; line-height: 1;
+}
+.page.even .page-footer { flex-direction: row-reverse; }
+.pnum { position: relative; flex: none; }
+/* algarismos alinhados + caixa recortada na altura das maiúsculas = número centrado de verdade */
+.pnum-n {
+  position: relative; z-index: 1; display: block; line-height: 1;
+  font-variant-numeric: lining-nums tabular-nums; font-feature-settings: "lnum" 1, "tnum" 1;
+  text-box: trim-both cap alphabetic;
+}
+.page-cover .page-footer, .page-art .page-footer, .page-solo .running { display: none; }
+.page-cover .page-deco, .page-art .page-deco { display: none; }
+
+/* ---------- texto ---------- */
+.page p { margin: 0; text-align: var(--align); }
+.page p + p { text-indent: var(--indent); }
+.page p.cont, .page p.noindent, .page p.center, .page p.right, .page p.dropcap { text-indent: 0; }
+.page p.split-head { text-align-last: var(--split-last); }
+.page p.center { text-align: center; }
+.page p.right { text-align: right; }
+.page p.small { font-size: .86em; }
+.page p.big { font-size: 1.2em; }
+.page p.lead { font-size: 1.08em; font-style: italic; }
+.page p.hand { font-family: 'Caveat', cursive; font-size: 1.35em; line-height: 1.1; }
+.page ul, .page ol { margin: .04in 0 .08in; padding-left: 1.3em; }
+.page li { margin: .015in 0; text-align: var(--align); }
+.page li::marker { color: var(--accent); }
+.page li.cont { list-style: none; }
+.page li > ul, .page li > ol { margin: .02in 0; }
+.page strong { font-weight: 700; }
+.page a { color: inherit; text-decoration: underline dotted; text-underline-offset: 2px; }
+.page mark { background: var(--mark); color: inherit; padding: 0 .12em; border-radius: 1px; }
+.page .sc { font-variant: small-caps; letter-spacing: .03em; }
+.page code { font-family: Consolas, "Courier New", monospace; font-size: .86em; background: rgba(127,127,127,.16); padding: 0 .25em; border-radius: 2px; hyphens: none; }
+.page pre { font-family: Consolas, "Courier New", monospace; font-size: 7.8pt; line-height: 1.35; background: rgba(127,127,127,.14); padding: .07in .09in; margin: .05in 0 .1in; white-space: pre-wrap; border-radius: 3px; hyphens: none; }
+.page pre code { background: none; padding: 0; font-size: 1em; }
+.page hr { border: 0; height: 14px; margin: .08in 0; background: var(--hr-bg); }
+.page .center-wrap { text-align: center; }
+.page .center-wrap p { text-align: center; text-indent: 0; }
+
+/* ---------- títulos ---------- */
+.page h1, .page h2, .page h3, .page h4, .page h5, .page h6 { font-weight: normal; line-height: 1.08; hyphens: manual; }
+.page h1.chapter { margin: 0 0 .2in; text-align: center; font-family: var(--font-h1); color: var(--h1-color, var(--h-color)); }
+.page .ch-label { display: block; font-family: var(--font-sc); font-size: 12pt; letter-spacing: .25em; text-transform: uppercase; color: var(--accent2); margin-bottom: .07in; }
+.page .ch-title { display: block; font-size: var(--h1-size); }
+.page .ch-orn { display: block; height: 18px; margin: .1in auto 0; width: 72%; background: var(--h1-orn); }
+.page h2 { font-family: var(--font-head); color: var(--h-color); font-size: var(--h2-size); margin: .14in 0 .05in; }
+.page h3 { font-family: var(--font-head); color: var(--h-color); font-size: var(--h3-size); margin: .12in 0 .05in; padding-bottom: 2px; border-bottom: 2px solid var(--rule); }
+.page h4 { font-family: var(--font-sc); color: var(--h-color); font-size: var(--h4-size); margin: .1in 0 .03in; }
+.page h5 { font-family: var(--font-sans); font-weight: 700; font-size: 9.5pt; margin: .1in 0 .03in; color: var(--ink); }
+.page h6 { font-family: var(--font-sans); font-size: 8.5pt; text-transform: uppercase; letter-spacing: .08em; margin: .08in 0 .02in; }
+.page p + h2, .page p + h3, .page ul + h3, .page ol + h3 { margin-top: .14in; }
+
+/* letra capitular */
+.page p.dropcap::first-letter {
+  float: left; font-family: var(--font-drop); color: var(--drop-color, var(--accent));
+  font-size: var(--drop-size, 3.6em); line-height: .8; margin: .05em .07em 0 0;
+}
+
+/* ---------- tabelas ---------- */
+.page table { width: 100%; border-collapse: collapse; font-family: var(--font-table, var(--font-sans)); font-size: 8.8pt; line-height: 1.22; margin: .04in 0 .12in; }
+.page th { text-align: left; font-weight: 700; padding: 3px 5px 2px; background: var(--th-bg); color: var(--th-color); vertical-align: bottom; }
+.page td { padding: 2px 5px; vertical-align: top; }
+.page tbody tr:nth-child(odd) { background: var(--stripe); }
+.page table.abilities { margin: .04in 0; }
+.page table.abilities th, .page table.abilities td { text-align: center; padding: 1px 2px; }
+.page table.abilities tbody tr { background: none; }
+
+/* ---------- imagens ---------- */
+.page figure { margin: .06in 0 .12in; }
+.page figure img { display: block; width: 100%; height: auto; max-height: calc(var(--page-h) - var(--pad-top) - var(--pad-bottom) - .4in); object-fit: contain; }
+.page figure.float-right { float: right; width: 45%; margin: .03in 0 .06in .14in; }
+.page figure.float-left { float: left; width: 45%; margin: .03in .14in .06in 0; }
+.page figure.center, .page figure.wide { margin-left: auto; margin-right: auto; }
+.page figure.round img { border-radius: 50%; aspect-ratio: 1; object-fit: cover; }
+.page figure.noborder img { border: 0 !important; box-shadow: none !important; padding: 0 !important; background: none !important; outline: 0 !important; transform: none !important; border-radius: 0; }
+.page figcaption { font-size: 8pt; font-style: italic; text-align: center; margin-top: .04in; color: var(--muted); line-height: 1.25; }
+.page img.broken { min-height: 1in; background: repeating-linear-gradient(45deg, rgba(127,127,127,.18) 0 8px, transparent 8px 16px); border: 1px dashed currentColor; }
+.page .inline-img { display: inline; height: 1.2em; width: auto; vertical-align: middle; }
+.page .col > .pin-bottom { position: absolute; left: 0; right: 0; margin: 0 !important; }
+
+/* ---------- caixas ---------- */
+.page .box { position: relative; margin: .08in 0 .14in; padding: .09in .12in; background: var(--box-bg); }
+.page .box, .page table, .page pre, .page hr, .page figure:not(.float-right):not(.float-left), .page blockquote { clear: both; }
+.page .box > :last-child { margin-bottom: 0; }
+.page .box p + p { text-indent: var(--box-indent, .8em); }
+.page .box .box-title { margin: 0 0 .04in !important; border: 0 !important; padding: 0 !important; }
+.page .box.nota { background: var(--note-bg); }
+.page .box.quadro { background: var(--side-bg); font-family: var(--font-sans); font-size: .9em; line-height: 1.3; }
+.page .box.quadro p { text-align: left; }
+.page .box.leitura { background: var(--read-bg); }
+.page .box.citacao { background: none; text-align: center; font-style: italic; padding: .06in .2in; }
+.page .box.citacao p { text-align: center; text-indent: 0; }
+.page .box.criatura { font-family: var(--font-stat, var(--font-sans)); font-size: .92em; line-height: 1.25; }
+.page .box.criatura p { text-indent: 0 !important; text-align: left; }
+.page .box.criatura > p + p { margin-top: .03in; }
+.page .box.criatura hr { margin: .05in 0; height: 5px; }
+.page .box.criatura h4 { margin-top: .08in; padding-bottom: 1px; border-bottom: 1px solid currentColor; }
+.page .box.magia p, .page .box.item p { text-indent: 0; }
+.page .box.cont { padding-top: .07in; }
+.page .box.split-head { padding-bottom: .06in; }
+.page .cite { text-align: right !important; font-style: normal; font-variant: small-caps; letter-spacing: .04em; margin-top: .04in !important; text-indent: 0 !important; }
+.page blockquote { margin: .08in .12in .12in; font-style: italic; }
+.page blockquote p { text-indent: 0 !important; }
+
+/* ---------- sumário ---------- */
+.page nav.toc { margin-bottom: .1in; }
+.page .toc-heading { font-family: var(--font-h1); font-size: 24pt; color: var(--h-color); margin: 0 0 .1in !important; }
+.page .toc-list { list-style: none; padding: 0; margin: 0; }
+.page .toc-list li { margin: 0; }
+.page .toc-list a { display: flex; align-items: baseline; gap: 5px; text-decoration: none; color: inherit; padding: 2.5px 0; }
+.page .toc-t { flex: 0 1 auto; }
+.page .toc-dots { flex: 1 1 auto; min-width: 12px; border-bottom: 1.5px dotted currentColor; opacity: .45; transform: translateY(-3px); }
+.page .toc-n { flex: none; font-variant-numeric: tabular-nums; }
+.page .toc-l1 a { font-family: var(--font-sc); font-size: 13.5pt; color: var(--h-color); margin-top: .16in; font-weight: 600; }
+.page .toc-l1:first-child a { margin-top: 0; }
+.page .toc-label { display: block; font-size: .72em; letter-spacing: .14em; opacity: .7; }
+.page .toc-l2 a { padding-left: .18in; font-size: 10.5pt; }
+.page .toc-l3 a { padding-left: .34in; font-size: 9.5pt; font-style: italic; }
+.page .toc-l4 a { padding-left: .46in; font-size: 8.6pt; }
+
+/* ---------- páginas especiais ---------- */
+.page .cover { position: absolute; inset: 0; z-index: 1; color: var(--cover-ink, #fff); }
+.page .cover-bg { position: absolute; inset: 0; background-size: cover; background-position: center; }
+.page .cover::after { content: ''; position: absolute; inset: 0; background: var(--cover-shade, linear-gradient(rgba(0,0,0,.62), rgba(0,0,0,.12) 40%, transparent 62%, rgba(0,0,0,.7))); pointer-events: none; }
+.page .cover-content { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; padding: .85in .75in .7in; }
+.page .cover-content > p:first-of-type { margin-top: auto; }
+.page .cover-bottom .cover-content { justify-content: flex-end; }
+.page .cover-center .cover-content { justify-content: center; }
+/* Obs.: nada de text-shadow nas páginas — o Chrome grava a sombra como uma
+   segunda cópia do texto no PDF, e o texto copiado sai duplicado. */
+.page .cover h1 { font-family: var(--font-h1); font-size: 50pt; line-height: .98; margin: 0 0 .16in; color: inherit; }
+.page .cover h2 { font-family: var(--font-sc); font-size: 16pt; letter-spacing: .12em; color: inherit; opacity: .92; margin: 0; border: 0; }
+.page .cover p { text-align: center; text-indent: 0; font-size: 13pt; }
+.page .cover-light { --cover-ink: #1b1510; --cover-shade: none; }
+.page .art-page { position: absolute; inset: 0; z-index: 1; }
+.page .art-page img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.page .art-page.contain img { object-fit: contain; }
+.page .art-caption { position: absolute; left: .6in; right: .6in; bottom: .4in; text-align: center; background: rgba(0,0,0,.55); color: #fff; padding: .07in .12in; font-style: italic; font-size: 10pt; border-radius: 3px; }
+.page-solo .page-body { display: flex; flex-direction: column; justify-content: center; }
+.page .solo-page { text-align: center; max-width: 5.2in; margin-left: auto; margin-right: auto; width: 100%; }
+.page .solo-page.solo-bottom { margin-top: auto; }
+.page .solo-page p { text-align: center; text-indent: 0; margin-bottom: .06in; }
+.page .solo-page h1 { font-family: var(--font-h1); color: var(--h-color); font-size: 30pt; margin: 0 0 .15in; }
+
+@media screen {
+  .page .overflowing { outline: 2px dashed #e0303a; outline-offset: 2px; }
+}
