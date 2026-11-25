@@ -257,9 +257,12 @@
       closeCols();
       if (!deferredWide.length) return false;
       queue.unshift(...deferredWide.splice(0), b);
+      endPage('bloco-largo');
       newPage();
       return true;
     }
+    /* guarda por que a página atual terminou (para o mapa de páginas) */
+    function endPage(reason) { if (page && !sealed && !page._endReason) page._endReason = reason; }
     const ensurePage = () => { if (!page || sealed) newPage(); };
     const colsEmpty = cs => [...cs.children].every(c => !c.children.length);
     const pageEmpty = () => !page || [...body.children].every(c => c.classList.contains('cols') && colsEmpty(c));
@@ -388,7 +391,7 @@
       const isChapter = b.matches('h1.chapter');
       if (isChapter && deferred.length) { queue.unshift(b); nextColumn(); return; }  // figuras pendentes ficam no capítulo certo
       if (isChapter && endSection(b)) return;
-      if (isChapter && !b.classList.contains('no-break') && !pageEmpty()) newPage();
+      if (isChapter && !b.classList.contains('no-break') && !pageEmpty()) { endPage('capitulo'); newPage(); }
 
       // bloco largo que não cabe no resto da página: vai para o topo da próxima
       // e o texto seguinte continua enchendo as colunas desta (sem buraco)
@@ -420,6 +423,7 @@
       if (wideFits(b)) return;
       if (body.children.length > 1) {
         b.remove();
+        endPage('bloco-largo');
         newPage();
         body.append(b);
         if (wideFits(b)) return;
@@ -448,7 +452,7 @@
         if (isFullHeight()) {          // não cabe nem numa coluna vazia: força
           col.append(b); b.classList.add('overflowing'); finishColumn(); return;
         }
-        queue.unshift(b); newPage(); return;
+        queue.unshift(b); endPage('bloco-alto'); newPage(); return;
       }
       queue.unshift(b);
       finishColumn();
@@ -460,14 +464,14 @@
       if (++guard > 50000) { console.warn('Paginador: limite de iterações'); break; }
       if (!queue.length) {
         if (pendingPins.length || deferred.length) { nextColumn(); continue; }
-        closeCols(); newPage(); continue;          // só sobraram blocos largos: página nova
+        closeCols(); endPage('bloco-largo'); newPage(); continue;   // só sobraram blocos largos: página nova
       }
       const b = queue.shift();
       const cl = b.classList;
 
       if (cl.contains('x-pagebreak')) {
         if (endSection(b)) continue;
-        if (page && !sealed && !pageEmpty()) newPage();
+        if (page && !sealed && !pageEmpty()) { endPage('quebra'); newPage(); }
         continue;
       }
       if (cl.contains('x-colbreak')) {
@@ -480,7 +484,7 @@
         const kind = cl.contains('cover') ? 'page-cover' : cl.contains('art-page') ? 'page-art' : 'page-solo';
         if (page && !sealed && endSection(b)) continue;
         if (page && !sealed && pageEmpty()) { body.replaceChildren(); cols = null; col = null; page.classList.add(kind); }
-        else newPage(kind);
+        else { endPage('especial'); newPage(kind); }
         if (kind === 'page-solo') body.append(b);
         else page.insertBefore(b, page.querySelector('.page-inner'));
         sealed = true;
@@ -522,7 +526,70 @@
       if (n) n.textContent = p ? p.dataset.num : '?';
     });
 
+    measurePages(pages);
     return pages.length;
+  }
+
+  /* =====================================================================
+     Guias: quanto de cada página está ocupado, onde ela começa no texto,
+     por que terminou, e marcação do espaço livre (só na tela)
+     ===================================================================== */
+  function measurePages(pages) {
+    const MIN_GAP = 46;   // px de espaço livre a partir do qual vale marcar
+    pages.forEach((p, i) => {
+      const next = pages[i + 1];
+      p.dataset.endReason = p._endReason || (next ? 'cheia' : 'fim');
+      if (p.matches('.page-cover, .page-art, .page-solo')) {
+        p.dataset.kind = 'especial'; p.dataset.fill = 100;
+        const s = p.querySelector('[data-line]');
+        if (s) p.dataset.startLine = s.dataset.line;
+        return;
+      }
+      const body = p.querySelector('.page-body');
+      const H = body.clientHeight || 1;
+      let used = 0, lastBottom = 0, firstBlock = null;
+      const gaps = [];
+      for (const sec of body.children) {
+        lastBottom = Math.max(lastBottom, bottomOf(sec) + (parseFloat(getComputedStyle(sec).marginBottom) || 0));
+        if (!sec.classList.contains('cols')) {
+          used += sec.offsetHeight;
+          if (!firstBlock) firstBlock = sec;
+          continue;
+        }
+        const ch = sec.offsetHeight;
+        for (const c of sec.children) {
+          let bottom = 0, pins = 0;
+          for (const k of c.children) {
+            if (isPin(k)) pins += k.offsetHeight + 12;
+            else { bottom = Math.max(bottom, bottomOf(k)); if (!firstBlock) firstBlock = k; }
+          }
+          used += Math.min(ch, bottom + pins) / 2;
+          const free = ch - pins - bottom;
+          if (free > MIN_GAP) gaps.push({ host: c, top: bottom, h: free, area: free / 2 });
+        }
+      }
+      const below = H - lastBottom;
+      if (below > MIN_GAP) gaps.push({ host: body, top: lastBottom, h: below, area: below });
+      const fill = Math.max(0, Math.min(1, used / H));
+      p.dataset.fill = Math.round(fill * 100);
+      p.dataset.kind = 'normal';
+      const start = firstBlock && (firstBlock.dataset.line != null ? firstBlock : firstBlock.querySelector('[data-line]'));
+      if (start) {
+        p.dataset.startLine = start.dataset.line;
+        if (start.classList.contains('cont')) p.dataset.startCont = '1';
+      }
+      // marcação do espaço livre (hachurado na tela; escondido na impressão)
+      if (fill < 0.9 && gaps.length) {
+        const big = gaps.reduce((a, b) => (b.area > a.area ? b : a));
+        for (const g of gaps) {
+          const d = el('div', 'free-space');
+          d.style.top = g.top + 'px';
+          d.style.height = g.h + 'px';
+          if (g === big) d.dataset.label = `espaço livre · página ${Math.round(fill * 100)}% ocupada`;
+          g.host.append(d);
+        }
+      }
+    });
   }
 
   global.Paginator = { paginate };

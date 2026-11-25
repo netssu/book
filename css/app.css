@@ -96,8 +96,10 @@ select.btn { padding-right: 6px; }
 .tgroup button:hover { background: var(--ui-panel2); color: #fff; }
 .tgroup button.accent { color: var(--ui-gold2); }
 .tgroup .mk { background: #c9a45c55; padding: 0 3px; border-radius: 2px; }
+.ed-wrap { flex: 1; position: relative; min-height: 0; }
 #editor {
-  flex: 1; resize: none; border: 0; outline: none; margin: 0;
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  resize: none; border: 0; outline: none; margin: 0;
   background: #1a1b20; color: #e4e1d9; padding: 18px 20px 40vh;
   font: 13.5px/1.65 "Cascadia Code", Consolas, "Courier New", monospace;
   tab-size: 2; white-space: pre-wrap; overflow-wrap: break-word;
@@ -105,6 +107,55 @@ select.btn { padding-right: 6px; }
 #editor::selection { background: #c9a45c55; }
 #editor.drop-hover { box-shadow: inset 0 0 0 3px var(--ui-gold); background: #22231f; }
 .ed-mirror { position: absolute; left: -9999px; top: 0; visibility: hidden; white-space: pre-wrap; overflow-wrap: break-word; height: auto; }
+
+/* ---------- guias: início de cada página no editor ---------- */
+.ed-marks { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.ed-marks-inner { position: absolute; left: 0; right: 0; top: 0; will-change: transform; }
+.ed-mark { position: absolute; left: 6px; right: 14px; height: 0; border-top: 1px dashed rgba(201,164,92,.5); }
+.ed-mark > span {
+  position: absolute; right: 0; top: -10px; font: 600 10.5px/18px system-ui, sans-serif; white-space: nowrap;
+  padding: 0 8px; border-radius: 9px; background: #2b2c33; color: var(--ui-gold2); border: 1px solid rgba(201,164,92,.45);
+  box-shadow: 0 1px 4px rgba(0,0,0,.4);
+}
+.ed-mark.warn { border-top-color: rgba(240,170,60,.8); }
+.ed-mark.warn > span { color: #ffd08a; border-color: rgba(240,170,60,.8); background: #3a2f1e; }
+.ed-mark.bad { border-top: 1px solid rgba(235,90,70,.85); }
+.ed-mark.bad > span { color: #ffb4a8; border-color: rgba(235,90,70,.9); background: #3d2220; }
+body.guides-off .ed-marks { display: none; }
+
+/* ---------- guias: mapa de páginas ---------- */
+.page-map {
+  position: sticky; top: -28px; z-index: 6; margin: -28px -24px 22px; padding: 8px 14px 9px;
+  background: rgba(28,29,34,.94); backdrop-filter: blur(6px); border-bottom: 1px solid var(--ui-line);
+  display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
+}
+.page-map:empty { display: none; }
+body.guides-off .page-map { display: none; }
+.pm-title { font-size: 11.5px; color: var(--ui-muted); margin-right: 6px; white-space: nowrap; }
+.pm-title b { color: var(--ui-text); font-weight: 600; }
+.pm-sep { width: 1px; height: 26px; background: var(--ui-line); margin: 0 3px; }
+.pm-cell {
+  position: relative; width: 20px; height: 27px; padding: 0; border: 1px solid #4a4b54; border-radius: 2px;
+  background: #3a3b42; cursor: pointer; overflow: hidden; flex: none;
+}
+.pm-cell:hover { border-color: var(--ui-gold); transform: translateY(-1px); }
+.pm-cell.current { outline: 2px solid var(--ui-gold); outline-offset: 1px; }
+.pm-fill { position: absolute; left: 0; right: 0; top: 0; background: #7fae74; }
+.pm-cell.warn .pm-fill { background: #e3a43c; }
+.pm-cell.bad .pm-fill { background: #e0604c; }
+.pm-cell.special .pm-fill { background: #6b8fc7; }
+.pm-cell b { position: absolute; left: 0; right: 0; bottom: 1px; font: 700 9px/1 system-ui, sans-serif; color: #fff; text-shadow: 0 0 3px #000, 0 0 2px #000; text-align: center; }
+.pm-legend { display: flex; gap: 10px; margin-left: auto; font-size: 11px; color: var(--ui-muted); white-space: nowrap; }
+.pm-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+.pm-tip {
+  position: fixed; z-index: 50; max-width: 320px; background: #2f3037; color: var(--ui-text); border: 1px solid var(--ui-line);
+  border-radius: 8px; padding: 9px 11px; font-size: 12px; line-height: 1.45; box-shadow: 0 10px 30px rgba(0,0,0,.5); pointer-events: none;
+}
+.pm-tip b { color: var(--ui-gold2); }
+.pm-tip .tip { color: #b9d3ff; margin-top: 5px; }
+.st-issues { background: none; border: 0; padding: 0; color: #ffc46b; cursor: pointer; font-size: 11.5px; }
+.st-issues:hover { text-decoration: underline; }
+body.guides-off .st-issues { display: none; }
 .statusbar {
   display: flex; gap: 14px; padding: 5px 12px; font-size: 11.5px; color: var(--ui-muted);
   border-top: 1px solid var(--ui-line); background: var(--ui-panel);
@@ -214,7 +265,7 @@ input[type=range] { accent-color: var(--ui-gold); }
 /* ---------- impressão / PDF ---------- */
 @media print {
   html, body { height: auto !important; overflow: visible !important; background: none !important; display: block !important; }
-  .topbar, .editor-pane, .splitter, .theme-panel, dialog, .stage, .toast, .ed-mirror { display: none !important; }
+  .topbar, .editor-pane, .splitter, .theme-panel, dialog, .stage, .toast, .ed-mirror, .page-map, .pm-tip { display: none !important; }
   .workspace { display: block !important; }
   .preview-pane { overflow: visible !important; padding: 0 !important; background: none !important; }
   #pages { zoom: 1 !important; display: block !important; width: auto !important; margin: 0 !important; }

@@ -34,6 +34,7 @@
     <button id="zoomIn" class="btn icon" title="Aumentar zoom">+</button>
     <button id="zoomFit" class="btn" title="Ajustar à largura">Ajustar</button>
     <button id="spreadBtn" class="btn" title="Ver páginas lado a lado (como livro aberto)">📖 Lado a lado</button>
+    <button id="guidesBtn" class="btn" title="Mostrar onde cada página começa no texto e o espaço que sobra em cada página">📐 Guias</button>
   </div>
   <div class="tb-group right">
     <button id="imagesBtn" class="btn">🖼 Imagens</button>
@@ -106,13 +107,17 @@
         <button data-act="solo" title="Página avulsa centralizada (créditos, dedicatória)">Página avulsa</button>
       </div>
     </div>
-    <textarea id="editor" spellcheck="false" autocomplete="off" placeholder="Escreva seu livro aqui…"></textarea>
+    <div class="ed-wrap">
+      <textarea id="editor" spellcheck="false" autocomplete="off" placeholder="Escreva seu livro aqui…"></textarea>
+      <div id="edMarks" class="ed-marks" aria-hidden="true"><div class="ed-marks-inner"></div></div>
+    </div>
     <div class="statusbar">
-      <span id="stPages">—</span><span id="stWords"></span><span id="stTime"></span><span id="stSave" class="push"></span>
+      <span id="stPages">—</span><button id="stIssues" class="st-issues" hidden></button><span id="stWords"></span><span id="stTime"></span><span id="stSave" class="push"></span>
     </div>
   </section>
   <div class="splitter" id="splitter" title="Arraste para redimensionar"></div>
   <section class="preview-pane" id="previewPane">
+    <div id="pageMap" class="page-map" aria-label="Mapa de páginas"></div>
     <div id="pages" class="book-pages"></div>
   </section>
 </main>
@@ -216,6 +221,17 @@
       <tr><td><code>{larga}</code> <code>{direita}</code> <code>{esquerda}</code> <code>{baixo}</code> <code>{pagina}</code></td><td>Largura total · flutuando à direita/esquerda · pé da coluna · página inteira.</td></tr>
       <tr><td><code>{largura=60%}</code> <code>{altura=200px}</code> <code>{sem-borda}</code> <code>{redonda}</code></td><td>Tamanho e moldura (pode combinar: <code>{direita largura=40%}</code>).</td></tr>
       <tr><td>Colar link · arrastar · Ctrl+V de um print</td><td>Vira imagem automaticamente no editor.</td></tr>
+    </table>
+    <h3>Guias de página (📐 Guias)</h3>
+    <p>No editor, uma linha tracejada mostra onde cada página começa no seu texto. Se a página anterior ficou com espaço
+      sobrando, a linha fica <b>laranja</b> (menos de 85% ocupada) ou <b>vermelha</b> (menos de 50%). Na prévia, o espaço
+      vazio aparece hachurado, e o <b>mapa de páginas</b> no topo mostra todas as páginas: passe o mouse para ver por que
+      sobrou espaço e como resolver; clique para ir até a página e até o trecho no texto. Nada disso aparece no PDF.</p>
+    <table>
+      <tr><td>Capítulo novo</td><td>Complete o fim do capítulo (texto, imagem, quadro) ou use <code># Título {continuar}</code>.</td></tr>
+      <tr><td>Quebra de página</td><td>Remova o <code>\pagina</code> se não for necessário.</td></tr>
+      <tr><td>Tabela larga não coube</td><td>Encurte ou divida a tabela, ou tire o <code>:::larga</code>.</td></tr>
+      <tr><td>Imagem não coube</td><td>Diminua com <code>{largura=50%}</code> ou mude a posição.</td></tr>
     </table>
     <h3>Exportar</h3>
     <p><b>Exportar PDF</b> abre a impressão do navegador: escolha <b>“Salvar como PDF”</b>, margens <b>Nenhuma</b> e deixe

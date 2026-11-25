@@ -47,7 +47,7 @@
   ];
 
   /* ---------- estado ---------- */
-  const DEFAULTS = { title: 'O Tomo das Terras Partidas', theme: 'classico', size: 'letter', zoom: 0.75, spread: false, edWidth: 42, text: null };
+  const DEFAULTS = { title: 'O Tomo das Terras Partidas', theme: 'classico', size: 'letter', zoom: 0.75, spread: false, guides: true, edWidth: 42, text: null };
   function loadState() {
     let s = {};
     try { s = JSON.parse(localStorage.getItem(STORE_KEY) || '{}') || {}; } catch (e) { s = {}; }
@@ -220,8 +220,183 @@
     $('#stWords').textContent = `${words.toLocaleString('pt-BR')} palavras`;
     $('#stTime').textContent = `diagramado em ${ms} ms`;
     if (document.activeElement === ed) syncPreviewToCursor(true);
+    updateGuides();
   }
   rendering = render;
+
+  /* =====================================================================
+     GUIAS DE PÁGINA
+     - no editor: linha onde cada página começa
+     - na prévia: mapa de páginas com o quanto cada uma está ocupada
+     ===================================================================== */
+  const REASONS = {
+    capitulo: ['O capítulo seguinte sempre começa em página nova.',
+      'Complete o fim do capítulo com texto, uma imagem ou um quadro, ou escreva {continuar} no título do próximo capítulo para ele começar nesta mesma página.'],
+    quebra: ['Há uma quebra de página (\\pagina) logo depois deste trecho.',
+      'Remova o \\pagina se ele não for necessário.'],
+    especial: ['A página seguinte é especial (capa, página avulsa ou arte de página inteira) e sempre começa numa folha nova.',
+      'Complete esta página com texto ou uma imagem, ou mude a página especial de lugar.'],
+    'bloco-largo': ['Uma tabela ou bloco de largura total (:::larga) não coube no espaço que sobrou e foi para a página seguinte.',
+      'Encurte ou divida a tabela em duas, ou tire o :::larga para ela caber numa coluna.'],
+    'bloco-alto': ['Um bloco que não pode ser dividido (imagem ou ficha) não coube no espaço que sobrou.',
+      'Diminua a imagem (ex.: largura=50%) ou mude a posição dela.'],
+    cheia: ['Sobrou espaço no pé de uma coluna: o bloco seguinte não pode ser dividido (título, imagem ou tabela curta) e passou para a coluna seguinte.',
+      'Diminua a imagem ou mexa no texto logo antes dela.'],
+    fim: ['Última página do livro.', 'Complete com uma arte, um quadro ou notas finais.']
+  };
+  let pageInfo = [];
+  const sevOf = p => p.kind === 'especial' ? 'special' : p.fill < 50 ? 'bad' : p.fill < 85 ? 'warn' : 'ok';
+
+  function updateGuides() {
+    document.body.classList.toggle('guides-off', !state.guides);
+    pageInfo = $$('.page', pagesEl).map(p => {
+      const sl = p.dataset.startLine;
+      const o = {
+        n: +p.dataset.num, fill: +(p.dataset.fill || 0), kind: p.dataset.kind || 'normal', reason: p.dataset.endReason || 'cheia',
+        line: sl === undefined || sl === '' ? null : +sl, cont: p.dataset.startCont === '1', el: p
+      };
+      o.sev = sevOf(o);
+      return o;
+    });
+    buildPageMap();
+    buildEdMarks();
+    const issues = pageInfo.filter(p => p.sev === 'bad' || p.sev === 'warn');
+    const st = $('#stIssues');
+    st.hidden = !issues.length;
+    st.textContent = issues.length ? `⚠ ${issues.length} ${issues.length === 1 ? 'página' : 'páginas'} com espaço sobrando` : '';
+  }
+
+  function pageTip(p) {
+    if (p.sev === 'special') return `<b>Página ${p.n}</b> · página especial (capa, avulsa ou arte)`;
+    const [why, fix] = REASONS[p.reason] || REASONS.cheia;
+    let h = `<b>Página ${p.n}</b> · ${p.fill}% ocupada`;
+    if (p.sev !== 'ok') h += `<div>${why}</div><div class="tip">Dica: ${fix}</div>`;
+    else h += `<div>Página bem preenchida.</div>`;
+    if (p.line != null) h += `<div style="opacity:.7;margin-top:5px">Começa na linha ${p.line + 1} do texto${p.cont ? ' (no meio de um bloco)' : ''}. Clique para ir até ela.</div>`;
+    return h;
+  }
+
+  const tipEl = document.createElement('div');
+  tipEl.className = 'pm-tip'; tipEl.hidden = true;
+  document.body.append(tipEl);
+  function showTip(html, x, y) {
+    tipEl.innerHTML = html; tipEl.hidden = false;
+    const r = tipEl.getBoundingClientRect();
+    tipEl.style.left = Math.min(window.innerWidth - r.width - 10, Math.max(10, x - r.width / 2)) + 'px';
+    tipEl.style.top = (y + 14) + 'px';
+  }
+
+  function goToPage(p) {
+    p.el.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    flash(p.el);
+    if (p.line != null) {
+      const r = indexOfLine(p.line);
+      ed.setSelectionRange(r.start, r.start);
+      ed.scrollTop = Math.max(0, caretY(r.start) - ed.clientHeight / 3);
+    }
+  }
+
+  function buildPageMap() {
+    const map = $('#pageMap');
+    map.replaceChildren();
+    if (!pageInfo.length) return;
+    const issues = pageInfo.filter(p => p.sev === 'bad' || p.sev === 'warn').length;
+    const title = document.createElement('div');
+    title.className = 'pm-title';
+    title.innerHTML = `Páginas · <b>${issues ? issues + ' com espaço sobrando' : 'todas bem preenchidas'}</b>`;
+    map.append(title);
+    for (const p of pageInfo) {
+      const c = document.createElement('button');
+      c.type = 'button';
+      c.className = 'pm-cell ' + p.sev;
+      c.innerHTML = `<span class="pm-fill" style="height:${p.sev === 'special' ? 100 : p.fill}%"></span><b>${p.n}</b>`;
+      c.addEventListener('mouseenter', e => { const r = c.getBoundingClientRect(); showTip(pageTip(p), r.left + r.width / 2, r.bottom); });
+      c.addEventListener('mouseleave', () => { tipEl.hidden = true; });
+      c.addEventListener('click', () => goToPage(p));
+      p.cell = c;
+      map.append(c);
+    }
+    const leg = document.createElement('div');
+    leg.className = 'pm-legend';
+    leg.innerHTML = '<span><i style="background:#7fae74"></i>cheia</span><span><i style="background:#e3a43c"></i>sobrando</span><span><i style="background:#e0604c"></i>meio vazia</span><span><i style="background:#6b8fc7"></i>especial</span>';
+    map.append(leg);
+    markCurrentPage();
+  }
+
+  function markCurrentPage() {
+    const mid = pane.getBoundingClientRect().top + pane.clientHeight / 2;
+    let cur = null;
+    for (const p of pageInfo) { const r = p.el.getBoundingClientRect(); if (r.top <= mid) cur = p; else break; }
+    pageInfo.forEach(p => p.cell && p.cell.classList.toggle('current', p === cur));
+  }
+  let mcRaf = 0;
+  pane.addEventListener('scroll', () => { cancelAnimationFrame(mcRaf); mcRaf = requestAnimationFrame(markCurrentPage); });
+
+  /* posição vertical (no editor) do início de várias linhas, com uma única medição */
+  function linePositions(lines) {
+    const cs = getComputedStyle(ed);
+    ['fontFamily', 'fontSize', 'lineHeight', 'paddingLeft', 'paddingRight', 'paddingTop', 'letterSpacing', 'tabSize', 'whiteSpace', 'wordWrap', 'overflowWrap']
+      .forEach(k => { mirror.style[k] = cs[k]; });
+    mirror.style.width = ed.clientWidth + 'px';
+    const want = new Set(lines), spans = new Map(), text = ed.value.split('\n');
+    mirror.replaceChildren();
+    let buf = [];
+    for (let i = 0; i < text.length; i++) {
+      if (want.has(i)) {
+        if (buf.length) { mirror.append(buf.join('\n') + '\n'); buf = []; }
+        const s = document.createElement('span');
+        spans.set(i, s); mirror.append(s);
+      }
+      buf.push(text[i]);
+    }
+    if (buf.length) mirror.append(buf.join('\n'));
+    mirror.append('​');
+    const out = new Map();
+    spans.forEach((s, i) => out.set(i, s.offsetTop));
+    return out;
+  }
+
+  function buildEdMarks() {
+    const inner = $('#edMarks .ed-marks-inner');
+    inner.replaceChildren();
+    if (!state.guides || !pageInfo.length) return;
+    // agrupa páginas que começam na mesma linha (ex.: tabela longa)
+    const byLine = new Map();
+    pageInfo.forEach((p, i) => {
+      if (p.line == null) return;
+      if (!byLine.has(p.line)) byLine.set(p.line, []);
+      byLine.get(p.line).push({ p, prev: pageInfo[i - 1] });
+    });
+    const pos = linePositions([...byLine.keys()]);
+    for (const [line, list] of byLine) {
+      const first = list[0], last = list[list.length - 1];
+      const prev = first.prev;
+      const m = document.createElement('div');
+      m.className = 'ed-mark';
+      let label = list.length > 1 ? `págs. ${first.p.n}–${last.p.n}` : `pág. ${first.p.n}`;
+      if (first.p.cont) label += ' · começa no meio deste bloco';
+      if (prev && (prev.sev === 'bad' || prev.sev === 'warn')) {
+        m.classList.add(prev.sev);
+        label += ` · pág. ${prev.n} ficou ${prev.fill}% ocupada`;
+      }
+      m.innerHTML = `<span></span>`;
+      m.firstChild.textContent = label;
+      m.style.top = (pos.get(line) - 1) + 'px';
+      inner.append(m);
+    }
+    inner.style.transform = `translateY(${-ed.scrollTop}px)`;
+  }
+  ed.addEventListener('scroll', () => { $('#edMarks .ed-marks-inner').style.transform = `translateY(${-ed.scrollTop}px)`; });
+  let resizeT = 0;
+  window.addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(buildEdMarks, 150); });
+
+  $('#stIssues').addEventListener('click', () => {
+    const issues = pageInfo.filter(p => p.sev === 'bad' || p.sev === 'warn');
+    if (!issues.length) return;
+    const curTop = pane.getBoundingClientRect().top + 40;
+    const next = issues.find(p => p.el.getBoundingClientRect().top > curTop) || issues[0];
+    goToPage(next);
+  });
 
   document.fonts.addEventListener('loadingdone', () => scheduleRender(150));
 
@@ -662,6 +837,12 @@
     $('#spreadBtn').classList.toggle('active', state.spread);
     bookClasses(pagesEl); save();
   });
+  $('#guidesBtn').classList.toggle('active', state.guides);
+  $('#guidesBtn').addEventListener('click', () => {
+    state.guides = !state.guides;
+    $('#guidesBtn').classList.toggle('active', state.guides);
+    updateGuides(); save();
+  });
   $('#imagesBtn').addEventListener('click', () => openImageDialog(ImageStore.list().length ? 'lib' : 'file'));
   $('#helpBtn').addEventListener('click', () => $('#helpDialog').showModal());
   $('#helpClose').addEventListener('click', () => $('#helpDialog').close());
@@ -759,6 +940,7 @@
     const clone = pagesEl.cloneNode(true);
     clone.style.zoom = '';
     clone.classList.remove('spread');
+    clone.querySelectorAll('.free-space').forEach(n => n.remove());
     // embute imagens da biblioteca
     for (const img of $$('img', clone)) {
       if (img.src.startsWith('blob:')) {
@@ -788,6 +970,7 @@
       splitter.removeEventListener('pointermove', move);
       splitter.removeEventListener('pointerup', up);
       document.body.classList.remove('dragging');
+      buildEdMarks();
       save();
     };
     splitter.addEventListener('pointermove', move);

@@ -189,3 +189,17 @@
 @media screen {
   .page .overflowing { outline: 2px dashed #e0303a; outline-offset: 2px; }
 }
+
+/* ---------- guias (só na tela): espaço livre da página ---------- */
+.page .free-space {
+  position: absolute; left: 0; right: 0; z-index: 3; pointer-events: none; border-radius: 3px;
+  border: 1.5px dashed rgba(224,96,76,.55);
+  background: repeating-linear-gradient(135deg, rgba(224,96,76,.08) 0 7px, transparent 7px 14px);
+  display: flex; align-items: center; justify-content: center;
+}
+.page .free-space[data-label]::after {
+  content: attr(data-label); font: 600 11px/1.2 system-ui, sans-serif; letter-spacing: .02em; color: #b8402f;
+  background: rgba(255,255,255,.9); padding: 4px 10px; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.15);
+}
+.guides-off .page .free-space, .book-pages.stage .free-space { display: none; }
+@media print { .page .free-space { display: none !important; } }
