@@ -1000,5 +1000,8 @@
     await render();
   })();
 
-  window.ForjaDeTomos = { render, state, THEMES };
+  window.ForjaDeTomos = {
+    render, state, THEMES, stage, bookClasses, loadFonts, toast, download, fileBase,
+    getPageInfo: () => pageInfo
+  };
 })();

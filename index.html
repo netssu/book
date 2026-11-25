@@ -39,6 +39,7 @@
   <div class="tb-group right">
     <button id="imagesBtn" class="btn">🖼 Imagens</button>
     <button id="helpBtn" class="btn">❔ Guia</button>
+    <button id="aiBtn" class="btn" title="Gera um guia com as medidas reais da página para colar na conversa com a IA que escreve o texto">🤖 Guia para IA</button>
     <div class="menu">
       <button class="btn">Arquivo ▾</button>
       <div class="menu-pop" id="fileMenu">
@@ -179,6 +180,23 @@
   </div>
 </dialog>
 
+<!-- ===================== Guia para IA ===================== -->
+<dialog id="aiDialog" class="dlg help">
+  <div class="dlg-head"><h2>🤖 Guia de escrita para IA</h2><button type="button" id="aiClose" class="btn icon">✕</button></div>
+  <div class="ai-body">
+    <p class="hint">Cole este texto no começo da conversa com a IA (ChatGPT, Claude, Gemini…) antes de pedir o texto do livro.
+      Ele traz quantas palavras cabem por página, quanto ocupa cada título, tabela, quadro, ficha e imagem, as regras do
+      diagramador e, no fim, as páginas do seu livro atual que estão com espaço sobrando. Os números são medidos no
+      <b>tema e tamanho de página escolhidos agora</b>.</p>
+    <textarea id="aiText" class="ai-text" readonly spellcheck="false"></textarea>
+    <div id="aiMeta" class="hint"></div>
+  </div>
+  <div class="dlg-actions">
+    <button type="button" id="aiDownload" class="btn">⬇ Baixar .md</button>
+    <button type="button" id="aiCopy" class="btn primary">📋 Copiar guia</button>
+  </div>
+</dialog>
+
 <!-- ===================== Guia ===================== -->
 <dialog id="helpDialog" class="dlg help">
   <div class="dlg-head"><h2>Guia rápido de formatação</h2><button type="button" id="helpClose" class="btn icon">✕</button></div>
@@ -244,5 +262,6 @@
 <script src="js/images.js"></script>
 <script src="js/sample.js"></script>
 <script src="js/app.js"></script>
+<script src="js/aiguide.js"></script>
 </body>
 </html>

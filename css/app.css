@@ -246,6 +246,12 @@ input[type=range] { accent-color: var(--ui-gold); }
 .help-body td:first-child { width: 44%; }
 .help-body code { background: var(--ui-bg); border: 1px solid var(--ui-line); padding: 1px 5px; border-radius: 4px; font-size: 12px; color: var(--ui-gold2); white-space: nowrap; }
 
+.ai-body { padding: 4px 20px 4px; }
+.ai-text {
+  width: 100%; height: min(58vh, 560px); resize: vertical; margin: 6px 0;
+  background: var(--ui-bg); color: #e4e1d9; border: 1px solid var(--ui-line); border-radius: 8px; padding: 12px 14px;
+  font: 12.5px/1.55 "Cascadia Code", Consolas, monospace; white-space: pre-wrap; font-variant-ligatures: none;
+}
 .toast {
   position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
   background: #2f3037; border: 1px solid var(--ui-gold); color: var(--ui-text); padding: 10px 16px; border-radius: 8px;

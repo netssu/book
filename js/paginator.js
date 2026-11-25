@@ -539,6 +539,7 @@
     pages.forEach((p, i) => {
       const next = pages[i + 1];
       p.dataset.endReason = p._endReason || (next ? 'cheia' : 'fim');
+      p.dataset.chapter = p._chapter || '';
       if (p.matches('.page-cover, .page-art, .page-solo')) {
         p.dataset.kind = 'especial'; p.dataset.fill = 100;
         const s = p.querySelector('[data-line]');
