@@ -98,6 +98,9 @@
     let i = rows.length - 1;
     for (; i >= 1; i--) { rows[i].remove(); moved.unshift(rows[i]); if (fits()) break; }
     if (i < 1) { tb.append(...moved); return null; }
+    // não deixa linha órfã: pelo menos 2 linhas de cada lado (senão a tabela vai inteira)
+    if (moved.length < 2 && i >= 3) { i--; rows[i].remove(); moved.unshift(rows[i]); }
+    if (i < 2 || moved.length < 2) { tb.append(...moved); return null; }
     const tail = tbl.cloneNode(false);
     if (tbl.tHead) tail.append(tbl.tHead.cloneNode(true));
     const tb2 = tb.cloneNode(false);
@@ -227,6 +230,7 @@
     const queue = blocks.slice();
     const pendingPins = [];
     const deferred = [];          // figuras adiadas para o topo da próxima coluna
+    const deferredWide = [];      // blocos largos (tabelas, imagens) adiados para o topo da próxima página
     let page = null, body = null, cols = null, col = null, colIdx = 0, sealed = false;
     let chapter = '';
 
@@ -243,6 +247,18 @@
       pages.push(page);
       page._chapter = chapter;
       cols = null; col = null; sealed = false;
+      // blocos largos adiados entram no topo da página nova
+      if (deferredWide.length) queue.unshift(...deferredWide.splice(0));
+    }
+
+    /* antes de mudar de seção (capítulo, quebra, página especial): equilibra as colunas e
+       despeja os blocos largos pendentes, para nada "vazar" para a seção seguinte */
+    function endSection(b) {
+      closeCols();
+      if (!deferredWide.length) return false;
+      queue.unshift(...deferredWide.splice(0), b);
+      newPage();
+      return true;
     }
     const ensurePage = () => { if (!page || sealed) newPage(); };
     const colsEmpty = cs => [...cs.children].every(c => !c.children.length);
@@ -371,7 +387,33 @@
       ensurePage();
       const isChapter = b.matches('h1.chapter');
       if (isChapter && deferred.length) { queue.unshift(b); nextColumn(); return; }  // figuras pendentes ficam no capítulo certo
+      if (isChapter && endSection(b)) return;
       if (isChapter && !b.classList.contains('no-break') && !pageEmpty()) newPage();
+
+      // bloco largo que não cabe no resto da página: vai para o topo da próxima
+      // e o texto seguinte continua enchendo as colunas desta (sem buraco)
+      if (!isChapter && !b._wideDeferred && cols && !colsEmpty(cols)) {
+        // com imagem/quadro preso ao pé, as colunas já ocupam o resto da página: adia direto
+        if (cols.querySelector('.pin-bottom')) { b._wideDeferred = true; deferredWide.push(b); return; }
+        const cs = cols;
+        const snap = {
+          h: cs.style.height, idx: colIdx,
+          k1: [...cs.children[0].children].map(n => n.cloneNode(true)),
+          k2: [...cs.children[1].children].map(n => n.cloneNode(true))
+        };
+        balance(cs);
+        body.append(b);
+        if (wideFits(b)) { cols = null; col = null; return; }
+        b.remove();
+        cs.style.height = snap.h;
+        cs.children[0].replaceChildren(...snap.k1);
+        cs.children[1].replaceChildren(...snap.k2);
+        cols = cs; colIdx = snap.idx; col = cs.children[colIdx];
+        b._wideDeferred = true;
+        deferredWide.push(b);
+        return;
+      }
+
       closeCols();
       if (isChapter) { chapter = b.dataset.running || ''; page._chapter = chapter; }
       body.append(b);
@@ -414,13 +456,17 @@
 
     /* ---------- laço principal ---------- */
     let guard = 0;
-    while (queue.length || pendingPins.length || deferred.length) {
+    while (queue.length || pendingPins.length || deferred.length || deferredWide.length) {
       if (++guard > 50000) { console.warn('Paginador: limite de iterações'); break; }
-      if (!queue.length) { nextColumn(); continue; }
+      if (!queue.length) {
+        if (pendingPins.length || deferred.length) { nextColumn(); continue; }
+        closeCols(); newPage(); continue;          // só sobraram blocos largos: página nova
+      }
       const b = queue.shift();
       const cl = b.classList;
 
       if (cl.contains('x-pagebreak')) {
+        if (endSection(b)) continue;
         if (page && !sealed && !pageEmpty()) newPage();
         continue;
       }
@@ -432,6 +478,7 @@
       }
       if (cl.contains('cover') || cl.contains('art-page') || cl.contains('solo-page')) {
         const kind = cl.contains('cover') ? 'page-cover' : cl.contains('art-page') ? 'page-art' : 'page-solo';
+        if (page && !sealed && endSection(b)) continue;
         if (page && !sealed && pageEmpty()) { body.replaceChildren(); cols = null; col = null; page.classList.add(kind); }
         else newPage(kind);
         if (kind === 'page-solo') body.append(b);
@@ -442,6 +489,7 @@
       if (cl.contains('wide')) { placeWide(b); continue; }
       placeFlow(b);
     }
+    closeCols();   // equilibra a última página
 
     // remove página final vazia
     if (pages.length > 1) {

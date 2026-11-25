@@ -396,58 +396,107 @@
 
 
 /* =====================================================================
-   6. AURA DE KI — versão sóbria: diagramação padrão de livro,
-      só a paleta laranja/azul e títulos esportivos
+   6. AURA DE KI — livro de regras moderno: serifa de leitura no texto,
+      títulos condensados, tabelas leves; laranja e azul só como acento
    ===================================================================== */
 .theme-ki {
-  --page-bg: #fbf8f2;
-  --ink: #1e1f24; --accent: #e8730c; --accent2: #1f4fa3; --muted: #5a5d68;
+  --page-bg: #fbf8f3;
+  --ink: #1d1f26; --accent: #e8730c; --accent2: #1f4fa3; --muted: #5b5f6b;
   --h-color: #1f4fa3; --rule: #e8730c;
-  --font-body: 'Nunito', system-ui, sans-serif; --font-head: 'Russo One', sans-serif;
-  --font-sc: 'Russo One', sans-serif; --font-h1: 'Russo One', sans-serif;
-  --font-sans: 'Nunito', sans-serif; --font-drop: 'Russo One', sans-serif;
-  --fs: 9.6pt; --lh: 1.38; --indent: 1em;
-  --h1-size: 32pt; --h2-size: 17pt; --h3-size: 12pt; --h4-size: 10pt;
-  --note-bg: #fcebd6; --side-bg: #e9eef7; --read-bg: #f3f1ec; --box-bg: #f3f1ec;
-  --th-bg: #1f4fa3; --th-color: #fff; --stripe: rgba(232,115,12,.09); --mark: rgba(255,196,60,.55);
-  --drop-size: 3.4em; --drop-color: #e8730c;
-  --hr-bg: linear-gradient(90deg, transparent, #e8730c 20%, #e8730c 80%, transparent) center / 100% 2px no-repeat;
-  --h1-orn: linear-gradient(90deg, #e8730c, #e8730c) left center / 1.2in 4px no-repeat, linear-gradient(90deg, #1f4fa3, transparent) left center / 100% 1px no-repeat;
+  --font-body: 'Source Serif 4', Georgia, serif;
+  --font-head: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-sc: 'Barlow Condensed', sans-serif; --font-h1: 'Barlow Condensed', sans-serif;
+  --font-sans: 'Barlow Semi Condensed', 'Arial Narrow', sans-serif; --font-table: 'Barlow Semi Condensed', sans-serif;
+  --font-drop: 'Barlow Condensed', sans-serif;
+  --fs: 9.4pt; --lh: 1.36; --indent: 1.1em; --align: left; --split-last: auto;
+  --pad-top: .62in; --pad-bottom: .82in; --pad-x: .62in; --col-gap: .3in;
+  --h1-size: 46pt; --h2-size: 21pt; --h3-size: 13.5pt; --h4-size: 10pt;
+  --note-bg: #fbeedd; --side-bg: #edf1f8; --read-bg: transparent; --box-bg: #f3efe8;
+  --th-bg: transparent; --th-color: #1f4fa3; --stripe: rgba(31,79,163,.055); --mark: rgba(255,190,60,.5);
+  --drop-size: 3.3em; --drop-color: #e8730c;
+  --hr-bg: linear-gradient(#e8730c, #e8730c) center / .9in 2px no-repeat;
+  --h1-orn: linear-gradient(#e8730c, #e8730c) left center / 1in 5px no-repeat, linear-gradient(#c8d2e6, #c8d2e6) left center / 100% 1px no-repeat;
 }
-.theme-ki .page strong { font-weight: 800; }
-.theme-ki .page h1.chapter { text-align: left; }
-.theme-ki .page h1.chapter .ch-label { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 10pt; letter-spacing: .22em; color: #e8730c; }
-.theme-ki .page h1.chapter .ch-title { color: #1f4fa3; line-height: 1.05; }
-.theme-ki .page .ch-orn { width: 100%; height: 6px; margin-top: .12in; }
-.theme-ki .page h2 { color: #1f4fa3; }
-.theme-ki .page h3 { color: #e8730c; border-bottom: 1px solid rgba(232,115,12,.5); }
-.theme-ki .page h4 { font-family: 'Nunito', sans-serif; font-weight: 800; color: #1f4fa3; text-transform: uppercase; letter-spacing: .05em; }
-.theme-ki .page h5 { font-family: 'Nunito', sans-serif; font-weight: 800; color: #1e1f24; }
-.theme-ki .page th { font-family: 'Nunito', sans-serif; font-weight: 800; }
-.theme-ki .page td { border-bottom: 1px solid rgba(0,0,0,.06); }
-.theme-ki .page figure img { box-shadow: 0 1px 6px rgba(0,0,0,.25); }
+.theme-ki .page { font-variant-numeric: lining-nums; }
+.theme-ki .page strong { font-weight: 700; }
+.theme-ki .page li::marker { color: #e8730c; }
 
-.theme-ki .page .box { padding: .1in .14in; }
-.theme-ki .page .box .box-title { font-family: 'Russo One', sans-serif; font-size: 11pt; color: #1f4fa3; }
+/* abertura de capítulo */
+.theme-ki .page h1.chapter { text-align: left; margin-bottom: .24in; }
+.theme-ki .page h1.chapter .ch-label { font-weight: 600; font-size: 11pt; letter-spacing: .32em; color: #e8730c; margin-bottom: .02in; }
+.theme-ki .page h1.chapter .ch-title { font-weight: 800; text-transform: uppercase; letter-spacing: .005em; line-height: .92; color: #1f4fa3; }
+.theme-ki .page .ch-orn { width: 100%; height: 6px; margin: .13in 0 0; }
+
+/* títulos */
+.theme-ki .page h2 { font-weight: 700; text-transform: uppercase; letter-spacing: .01em; line-height: 1; margin: .16in 0 .05in; }
+.theme-ki .page h3 { font-weight: 700; color: #e8730c; border: 0; padding: 0; margin: .12in 0 .03in; }
+.theme-ki .page h4 { font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #1d1f26; }
+.theme-ki .page h5 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 10.5pt; text-transform: uppercase; letter-spacing: .04em; color: #1f4fa3; margin-bottom: .02in; }
+.theme-ki .page p.dropcap::first-letter { font-weight: 800; line-height: .78; margin: .07em .08em 0 0; }
+
+/* listas e texto auxiliar em sans estreita, que cabe melhor em regras */
+.theme-ki .page ul, .theme-ki .page ol { padding-left: 1.15em; }
+.theme-ki .page li { margin: .02in 0; }
+
+/* tabelas leves: fio azul sob o cabeçalho, sem barra sólida */
+.theme-ki .page table { font-size: 8.7pt; line-height: 1.2; border-bottom: 1px solid #c8d2e6; }
+.theme-ki .page th { font-weight: 700; font-size: 7.8pt; text-transform: uppercase; letter-spacing: .04em; padding: 3px 5px 3px; border-bottom: 1.5px solid #1f4fa3; vertical-align: bottom; }
+.theme-ki .page td { padding: 2.5px 5px; }
+.theme-ki .page td:first-child { font-weight: 600; }
+.theme-ki .page table.abilities td:first-child { font-weight: 400; }
+
+/* imagens: sem moldura por padrão (arte de personagem costuma ser recortada) */
+.theme-ki .page figcaption { font-family: 'Barlow Semi Condensed', sans-serif; font-style: italic; text-align: left; color: #5b5f6b; }
+
+/* caixas */
+.theme-ki .page .box { padding: .1in .14in; font-family: 'Barlow Semi Condensed', sans-serif; font-size: 9.3pt; line-height: 1.3; }
+.theme-ki .page .box p { text-align: left; }
+.theme-ki .page .box .box-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12pt; text-transform: uppercase; letter-spacing: .04em; color: #1f4fa3; }
 .theme-ki .page .box.nota { border-left: 4px solid #e8730c; }
-.theme-ki .page .box.nota .box-title { color: #b85600; }
-.theme-ki .page .box.quadro { border: 1px solid #b9c7e2; box-shadow: 0 1px 4px rgba(31,79,163,.18); }
-.theme-ki .page .box.leitura { font-style: italic; border-left: 3px solid #1f4fa3; }
-.theme-ki .page .box.destaque { background: #fff; border: 2px solid #e8730c; }
-.theme-ki .page .box.destaque .box-title { color: #e8730c; }
-.theme-ki .page .box.citacao { font-size: 1.08em; color: #3a3d48; }
-.theme-ki .page .box.criatura { background: #fffdf8; border-top: 4px solid #e8730c; border-bottom: 4px solid #e8730c; box-shadow: 0 1px 6px rgba(0,0,0,.18); }
-.theme-ki .page .box.criatura .box-title { font-size: 16pt; color: #e8730c; }
+.theme-ki .page .box.nota .box-title { color: #c45f05; }
+.theme-ki .page .box.quadro { border-top: 3px solid #1f4fa3; }
+.theme-ki .page .box.leitura { font-family: 'Source Serif 4', serif; font-style: italic; font-size: 9.6pt; border-left: 2px solid #1f4fa3; padding: .02in .14in; }
+.theme-ki .page .box.destaque { background: #1f4fa3; color: #fff; }
+.theme-ki .page .box.destaque .box-title { color: #ffc183; }
+.theme-ki .page .box.destaque strong { color: #fff; }
+.theme-ki .page .box.citacao { font-family: 'Source Serif 4', serif; font-size: 1.08em; color: #3a3d48; }
+.theme-ki .page .box.citacao .cite { font-family: 'Barlow Condensed', sans-serif; font-variant: normal; text-transform: uppercase; letter-spacing: .1em; color: #e8730c; font-size: .8em; }
+.theme-ki .page .box.criatura { background: #fff; border-top: 4px solid #1f4fa3; border-bottom: 2px solid #1f4fa3; box-shadow: 0 1px 4px rgba(29,31,38,.12); }
+.theme-ki .page .box.criatura .box-title { font-size: 17pt; color: #1f4fa3; }
 .theme-ki .page .box.criatura strong { color: #1f4fa3; }
-.theme-ki .page .box.criatura h4 { color: #e8730c; border-color: rgba(232,115,12,.6); }
-.theme-ki .page .box.criatura hr { background: linear-gradient(90deg, #e8730c, transparent) left / 100% 2px no-repeat; }
-.theme-ki .page .box.magia { background: #eef3fb; border-top: 3px solid #1f4fa3; }
+.theme-ki .page .box.criatura h4 { font-family: 'Barlow Condensed', sans-serif; color: #e8730c; border-color: #e8730c; }
+.theme-ki .page .box.criatura hr { height: 1px; background: #c8d2e6; margin: .06in 0; }
+.theme-ki .page .box.criatura .abilities { border: 0; }
+.theme-ki .page .box.magia { background: #edf1f8; border-left: 4px solid #1f4fa3; }
 .theme-ki .page .box.magia .box-title { font-size: 13pt; }
-.theme-ki .page .box.item { border: 1px dashed #e8730c; background: #fff; }
+.theme-ki .page .box.item { background: transparent; border-top: 1.5px solid #e8730c; border-bottom: 1px solid #e8730c; padding-left: 0; padding-right: 0; }
 
-.theme-ki .page-deco::after { content: ''; position: absolute; left: .6in; right: .6in; bottom: .58in; height: 1px; background: #d9d4ca; }
-.theme-ki .page-footer { bottom: .3in; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 7.5pt; letter-spacing: .14em; text-transform: uppercase; color: #5a5d68; }
-.theme-ki .pnum { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #e8730c; color: #fff; font: 400 10pt 'Russo One', sans-serif; }
-.theme-ki .page .cover h1 { font-family: 'Russo One', sans-serif; font-size: 44pt; }
-.theme-ki .page .cover h2 { font-family: 'Nunito', sans-serif; font-weight: 800; }
-.theme-ki .page .toc-l1 a { color: #1f4fa3; }
+/* rodapé */
+.theme-ki .page-deco::after { content: ''; position: absolute; left: .62in; right: .62in; bottom: .6in; height: 1px; background: #dcd6cb; }
+.theme-ki .page-footer { bottom: .3in; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 8.5pt; letter-spacing: .16em; text-transform: uppercase; color: #5b5f6b; }
+.theme-ki .running.empty { display: none; }
+.theme-ki .pnum { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: #e8730c; color: #fff; font: 700 10.5pt 'Barlow Condensed', sans-serif; letter-spacing: 0; }
+
+/* sumário */
+.theme-ki .page .toc-heading { font-weight: 800; text-transform: uppercase; font-size: 28pt; }
+.theme-ki .page .toc-l1 a { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13pt; color: #1f4fa3; margin-top: .11in; text-transform: uppercase; letter-spacing: .02em; }
+.theme-ki .page .toc-label { color: #e8730c; font-size: .66em; letter-spacing: .2em; }
+.theme-ki .page .toc-l2 a { font-family: 'Barlow Semi Condensed', sans-serif; font-size: 9.6pt; padding: 1.5px 0 1.5px .16in; }
+
+/* páginas de divisão (página avulsa com título principal): página inteira em azul */
+.theme-ki .page.page-solo:has(.solo-page h1) { background: #1f4fa3; color: #fff; }
+.theme-ki .page.page-solo:has(.solo-page h1) .page-deco::after { display: none; }
+.theme-ki .page.page-solo:has(.solo-page h1) .page-body { justify-content: flex-end; padding-bottom: 1.2in; }
+.theme-ki .page.page-solo:has(.solo-page h1) .solo-page { text-align: left; max-width: none; }
+.theme-ki .page.page-solo:has(.solo-page h1) .solo-page h1 {
+  color: #fff; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 64pt; line-height: .9;
+  text-transform: uppercase; margin: 0 0 .14in; padding-top: .16in; border-top: 6px solid #e8730c; display: inline-block;
+}
+.theme-ki .page.page-solo:has(.solo-page h1) .solo-page h2 { color: #ffc183; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 20pt; text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .1in; border: 0; }
+.theme-ki .page.page-solo:has(.solo-page h1) .solo-page p { text-align: left; color: #dbe4f5; font-size: 11pt; }
+.theme-ki .page.page-solo:has(.solo-page h1) .pnum { background: #fff; color: #1f4fa3; }
+
+/* capa */
+.theme-ki .page .cover h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; text-transform: uppercase; font-size: 60pt; line-height: .9; }
+.theme-ki .page .cover h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+.theme-ki .page .cover p { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; }

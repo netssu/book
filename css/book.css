@@ -113,6 +113,9 @@
 .page figure.float-left { float: left; width: 45%; margin: .03in .14in .06in 0; }
 .page figure.center, .page figure.wide { margin-left: auto; margin-right: auto; }
 .page figure.round img { border-radius: 50%; aspect-ratio: 1; object-fit: cover; }
+.page figure.cutout img { border: 0 !important; box-shadow: none !important; padding: 0 !important; background: none !important; outline: 0 !important; border-radius: 0 !important; transform: none !important; }
+.page figure.cutout.float-right { margin: 0 -.05in .04in .1in; }
+.page figure.cutout.float-left { margin: 0 .1in .04in -.05in; }
 .page figure.noborder img { border: 0 !important; box-shadow: none !important; padding: 0 !important; background: none !important; outline: 0 !important; transform: none !important; border-radius: 0; }
 .page figcaption { font-size: 8pt; font-style: italic; text-align: center; margin-top: .04in; color: var(--muted); line-height: 1.25; }
 .page img.broken { min-height: 1in; background: repeating-linear-gradient(45deg, rgba(127,127,127,.18) 0 8px, transparent 8px 16px); border: 1px dashed currentColor; }

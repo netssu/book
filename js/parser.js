@@ -311,6 +311,8 @@
     if (f.has('sem-borda')) cls.push('noborder');
     if (f.has('centro')) cls.push('center');
     if (f.has('redonda')) cls.push('round');
+    if (f.has('recorte')) cls.push('cutout');          // força: imagem sem fundo (sem moldura)
+    if (f.has('moldura')) cls.push('framed');          // força: mantém moldura mesmo se for transparente
     let st = '';
     if (kv.largura) st += `width:${unit(kv.largura)};`;
     const imgSt = kv.altura ? ` style="height:${unit(kv.altura)};object-fit:cover"` : '';

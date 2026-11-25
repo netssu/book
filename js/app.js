@@ -39,8 +39,10 @@
     },
     {
       id: 'ki', name: 'Aura de Ki',
-      desc: 'Diagramação limpa e padrão, em laranja e azul, com títulos esportivos. Para sagas de artes marciais.',
-      fonts: ['400 16px "Russo One"', '400 16px "Nunito"', 'italic 400 16px "Nunito"', '700 16px "Nunito"', '800 16px "Nunito"']
+      desc: 'Livro de regras moderno: serifa de leitura, títulos condensados e tabelas leves, com laranja e azul como acento.',
+      fonts: ['800 20px "Barlow Condensed"', '700 20px "Barlow Condensed"', '600 16px "Barlow Condensed"',
+        '400 16px "Barlow Semi Condensed"', '700 16px "Barlow Semi Condensed"', 'italic 400 16px "Barlow Semi Condensed"',
+        '400 16px "Source Serif 4"', 'italic 400 16px "Source Serif 4"', '700 16px "Source Serif 4"']
     }
   ];
 
@@ -84,14 +86,96 @@
     target.className = cls.join(' ');
   }
 
+  /* Detecta imagens "recortadas" (PNG/SVG com fundo transparente, ex.: personagens).
+     Olha a borda da imagem: se boa parte for transparente, é recorte. O resultado
+     fica em cache por endereço, porque a diagramação roda a cada tecla. */
+  const cutoutCache = new Map();
+  /* Resultado: { cutout: bool, url: endereço novo (fundo branco removido) ou null } */
+  function isCutout(src) {
+    if (cutoutCache.has(src)) return cutoutCache.get(src);
+    const p = new Promise(resolve => {
+      const done = v => resolve(v);
+      const im = new Image();
+      if (!/^(blob:|data:)/.test(src)) im.crossOrigin = 'anonymous';
+      im.onload = () => {
+        try {
+          const scale = Math.min(1, 1400 / Math.max(im.naturalWidth, im.naturalHeight));
+          const W = Math.max(1, Math.round(im.naturalWidth * scale)), H = Math.max(1, Math.round(im.naturalHeight * scale));
+          const c = document.createElement('canvas');
+          c.width = W; c.height = H;
+          const g = c.getContext('2d', { willReadFrequently: true });
+          g.drawImage(im, 0, 0, W, H);
+          const img = g.getImageData(0, 0, W, H), d = img.data;
+          // examina a borda (2px)
+          let edge = 0, clear = 0, white = 0;
+          const isWhite = i => d[i + 3] > 200 && d[i] > 236 && d[i + 1] > 236 && d[i + 2] > 236;
+          for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+            if (x > 1 && y > 1 && x < W - 2 && y < H - 2) { x = W - 3; continue; }
+            const i = (y * W + x) * 4; edge++;
+            if (d[i + 3] < 200) clear++; else if (isWhite(i)) white++;
+          }
+          if (clear / edge > 0.35) return done({ cutout: true, url: null });       // já é recorte (PNG transparente)
+          if (white / edge < 0.8) return done({ cutout: false, url: null });       // foto/ilustração com fundo
+          // fundo branco: apaga o branco conectado às bordas (o branco "de dentro" fica)
+          const N = W * H, gone = new Uint8Array(N), stack = new Int32Array(N);
+          let sp = 0;
+          const near = i => d[i + 3] > 0 && d[i] > 228 && d[i + 1] > 228 && d[i + 2] > 228;
+          const seed = p => { if (!gone[p] && near(p * 4)) { gone[p] = 1; stack[sp++] = p; } };
+          for (let x = 0; x < W; x++) { seed(x); seed((H - 1) * W + x); }
+          for (let y = 0; y < H; y++) { seed(y * W); seed(y * W + W - 1); }
+          while (sp) {
+            const p = stack[--sp], x = p % W;
+            if (x > 0) seed(p - 1);
+            if (x < W - 1) seed(p + 1);
+            if (p >= W) seed(p - W);
+            if (p < N - W) seed(p + W);
+          }
+          for (let p = 0; p < N; p++) {
+            const i = p * 4;
+            if (gone[p]) { d[i + 3] = 0; continue; }
+            // suaviza a borda do recorte: pixels claros vizinhos ao fundo ficam semitransparentes
+            const x = p % W;
+            const touches = (x > 0 && gone[p - 1]) || (x < W - 1 && gone[p + 1]) || (p >= W && gone[p - W]) || (p < N - W && gone[p + W]);
+            if (touches) {
+              const lum = Math.min(d[i], d[i + 1], d[i + 2]);
+              if (lum > 190) d[i + 3] = Math.min(d[i + 3], Math.round((255 - lum) * 4));
+            }
+          }
+          g.putImageData(img, 0, 0);
+          c.toBlob(b => done(b ? { cutout: true, url: URL.createObjectURL(b) } : { cutout: false, url: null }), 'image/png');
+        } catch (e) { done({ cutout: false, url: null }); }                     // imagem de outro site sem permissão
+      };
+      im.onerror = () => done({ cutout: false, url: null });
+      setTimeout(() => done({ cutout: false, url: null }), 8000);
+      im.src = src;
+    });
+    cutoutCache.set(src, p);
+    return p;
+  }
+
   function waitImages(root) {
     const imgs = $$('img', root);
     return Promise.all(imgs.map(img => {
-      if (img.complete) return null;
-      return new Promise(r => {
+      const loaded = img.complete ? Promise.resolve() : new Promise(r => {
         img.addEventListener('load', r, { once: true });
         img.addEventListener('error', r, { once: true });
         setTimeout(r, 8000);
+      });
+      const fig = img.closest('figure');
+      if (!fig || fig.classList.contains('framed')) return loaded;
+      return Promise.all([loaded, isCutout(img.src)]).then(async ([, res]) => {
+        if (!res.cutout && !fig.classList.contains('cutout')) return;
+        fig.classList.add('cutout');
+        if (res.url) {                       // troca pela versão sem fundo branco
+          img.src = res.url;
+          if (!img.complete) await new Promise(r => { img.onload = img.onerror = r; });
+        }
+        // texto contorna a silhueta quando a imagem flutua (sem legenda, para o contorno bater)
+        if ((fig.classList.contains('float-right') || fig.classList.contains('float-left')) && !fig.querySelector('figcaption')) {
+          fig.style.shapeOutside = `url("${img.src}")`;
+          fig.style.shapeImageThreshold = '0.25';
+          fig.style.shapeMargin = '7px';
+        }
       });
     })).then(() => imgs.forEach(img => { if (img.complete && !img.naturalWidth) img.classList.add('broken'); }));
   }
